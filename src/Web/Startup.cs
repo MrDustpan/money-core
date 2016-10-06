@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using MediatR;
+using Scrutor;
+using Web.Controllers;
 
 namespace Web
 {
@@ -29,6 +32,13 @@ namespace Web
     {
       // Add framework services.
       services.AddMvc();
+
+      // Add application services.
+      services.AddScoped<SingleInstanceFactory>(p => t => p.GetRequiredService(t));
+      services.Scan(scan => scan
+                .FromAssembliesOf(typeof(IMediator), typeof(HomeController))
+                .AddClasses()
+                .AsImplementedInterfaces());
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
