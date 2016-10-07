@@ -4,13 +4,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using Money.Accounts.Messages;
+using Web.ViewModels;
 
 namespace Web.Controllers
 {
   public class AccountsController : Controller
   {
     private readonly IMediator _mediator;
-
+    
     public AccountsController(IMediator mediator)
     {
       _mediator = mediator;
@@ -18,19 +20,15 @@ namespace Web.Controllers
 
     public IActionResult Index()
     {
-      var msg = _mediator.Send(new GetMessageRequest());
-      ViewData["Message"] = msg;
-      return View();
-    }
-  }
+      var response = _mediator.Send(new GetAccountIndex());
 
-  public class GetMessageRequest : IRequest<string> { }
+      var viewModel = response.Accounts.Select(x => new AccountIndex
+      {
+        AccountId = x.AccountId,
+        Name = x.Name
+      }).ToList();
 
-  public class GetMessageHandler : IRequestHandler<GetMessageRequest, string>
-  {
-    public string Handle(GetMessageRequest request)
-    {
-      return "From the handler!";
+      return View(viewModel);
     }
   }
 }

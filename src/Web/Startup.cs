@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using MediatR;
 using Scrutor;
 using Web.Controllers;
+using Money.Accounts.Models;
 
 namespace Web
 {
@@ -35,8 +36,14 @@ namespace Web
 
       // Add application services.
       services.AddScoped<SingleInstanceFactory>(p => t => p.GetRequiredService(t));
+
       services.Scan(scan => scan
                 .FromAssembliesOf(typeof(IMediator), typeof(HomeController))
+                .AddClasses()
+                .AsImplementedInterfaces());
+
+      services.Scan(scan => scan
+                .FromAssembliesOf(typeof(IMediator), typeof(AccountOverview))
                 .AddClasses()
                 .AsImplementedInterfaces());
     }

@@ -21,7 +21,10 @@
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Microsoft.Extensions.DependencyInjection": "1.0.0",
     "Scrutor": "1.6",
-    "MediatR": "2.0.0-beta-001"
+    "MediatR": "2.0.0-beta-001",
+    "Money": {
+      "target": "project"
+    }
   },
 
   "tools": {
