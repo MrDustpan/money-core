@@ -9,8 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using MediatR;
 using Scrutor;
-using Web.Controllers;
+using Web.Features.Home;
 using Money.Accounts.Models;
+using Web;
 
 namespace Web
 {
@@ -32,7 +33,16 @@ namespace Web
     public void ConfigureServices(IServiceCollection services)
     {
       // Add framework services.
-      services.AddMvc();
+      services.AddMvc(o => o.Conventions.Add(new FeatureConvention()))
+        .AddRazorOptions(options => 
+        {
+          options.ViewLocationFormats.Clear();
+          options.ViewLocationFormats.Add("/Features/{3}/{1}/{0}.cshtml");
+          options.ViewLocationFormats.Add("/Features/{3}/{0}.cshtml");
+          options.ViewLocationFormats.Add("/Features/Shared/{0}.cshtml");
+
+          options.ViewLocationExpanders.Add(new FeatureViewLocationExpander());
+        });
 
       // Add application services.
       services.AddScoped<SingleInstanceFactory>(p => t => p.GetRequiredService(t));

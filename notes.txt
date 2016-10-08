@@ -1,0 +1,20 @@
+Identity
+    AccountSettings
+    Authentication
+    Authorization
+    MultiFactorAuth
+    PasswordReset
+    Registration
+Infrastructure
+    Configuration
+    Database
+    Logging
+Money
+    Accounts
+    Budget
+    Calculators
+    Reporting
+Web
+    Accounts
+    Auth
+    Budget

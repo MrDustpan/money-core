@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Money.Accounts.Messages;
-using Web.ViewModels;
+using Web.Features.Accounts.ViewModels;
 
-namespace Web.Controllers
+namespace Web.Features.Accounts
 {
   public class AccountsController : Controller
   {

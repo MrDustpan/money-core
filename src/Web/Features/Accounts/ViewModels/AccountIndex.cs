@@ -1,4 +1,4 @@
-namespace Web.ViewModels
+namespace Web.Features.Accounts.ViewModels
 {
   public class AccountIndex
   {
