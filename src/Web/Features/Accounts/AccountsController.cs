@@ -30,5 +30,13 @@ namespace Web.Features.Accounts
 
       return View(viewModel);
     }
+
+    [HttpPost]
+    public IActionResult Create()
+    {
+      var request = new CreateAccount { Name = "Funtimes", Balance = 12.34m };
+      var response = _mediator.Send(request);
+      return RedirectToAction("Index");
+    }
   }
 }

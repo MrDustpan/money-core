@@ -1,20 +1,43 @@
-Identity
-    AccountSettings
-    Authentication
-    Authorization
-    MultiFactorAuth
-    PasswordReset
-    Registration
-Infrastructure
-    Configuration
-    Database
-    Logging
 Money
     Accounts
+        Account.cs
+        AccountTransaction.cs
+        CreateAccount
+            CreateAccountHandler.cs
+            CreateAccountRequest.cs
+            CreateAccountResponse.cs
+        DeleteAccount
+            DeleteAccountHandler.cs
+            DeleteAccountRequest.cs
+            DeleteAccountResponse.cs
+        GetAccountIndex
+            GetAccountIndexHandler.cs
+            GetAccountIndexRequest.cs
+            GetAccountIndexResponse.cs
+        RecordTransaction
+            RecordTransactionHandler.cs
+            RecordTransactionRequest.cs
+            RecordTransactionResponse.cs
+        TransferFunds
+            TransferFundsHandler.cs
+            TransferFundsRequest.cs
+            TransferFundsResponse.cs
     Budget
     Calculators
-    Reporting
+    Infrastructure
+        ApplicationDbContext.cs
+        DataGateway.cs
+        Repository.cs
+    Identity
+        User.cs
+        Authenticate
+        Register
+        ResetPassword
+    Reports
 Web
-    Accounts
-    Auth
-    Budget
+    Features
+        Accounts
+        Auth
+        Budget
+        Calculators
+        Reports

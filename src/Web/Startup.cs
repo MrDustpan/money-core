@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Scrutor;
 using Web.Features.Home;
 using Money.Accounts.Models;
+using Money.Infrastructure;
 using Web;
 
 namespace Web
@@ -32,6 +34,9 @@ namespace Web
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddDbContext<ApplicationDbContext>(
+        optionsBuilder => optionsBuilder.UseInMemoryDatabase());
+      
       // Add framework services.
       services.AddMvc(o => o.Conventions.Add(new FeatureConvention()))
         .AddRazorOptions(options => 
