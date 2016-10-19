@@ -43,9 +43,26 @@ namespace Money.Tests.Identity
       var response = await handler.HandleAsync(request);
 
       Assert.True(response.Success);
+
       d.UserRepository.Verify(x => x.AddAsync(It.Is<User>(u => 
         u.Email == "a@b.c" &&
         u.Password == "P@ssword!!")));
+    }
+
+    [Fact]
+    public async Task RegisterSendsConfirmationEmail()
+    {
+      var request = new RegisterRequest { Email = "a@b.c", Password = "P@ssword!!" };
+      var d = new Dependencies();
+      var handler = GetHandler(d);
+
+      var response = await handler.HandleAsync(request);
+
+      d.EmailService.Verify(x => x.SendAsync(It.Is<EmailMessage>(m =>
+        m.To[0] == "a@b.c" &&
+        m.From == "?" &&
+        m.Subject == "?" &&
+        m.Body == "?")));
     }
 
     private static RegisterHandler GetHandler(Dependencies d)
@@ -56,6 +73,7 @@ namespace Money.Tests.Identity
     private class Dependencies
     {
       public Mock<IRepository<User>> UserRepository { get; set; }
+      public Mock<IEmailService> EmailService { get; set; }
 
       public Dependencies()
       {

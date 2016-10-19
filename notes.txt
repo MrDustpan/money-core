@@ -32,6 +32,10 @@ Money
         User.cs
         Authenticate
         Register
+            RegisterHandler.cs
+            RegisterRequest.cs
+            RegisterResponse.cs
+            ConfirmationEmailSender.cs
         ResetPassword
     Reports
 Web

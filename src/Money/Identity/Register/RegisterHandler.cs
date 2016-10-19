@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Money.Identity;
 using Money.Infrastructure;
 
 namespace Money.Identity.Register
@@ -15,7 +14,21 @@ namespace Money.Identity.Register
 
     public async Task<RegisterResponse> HandleAsync(RegisterRequest request)
     {
-      return await Task.FromResult(new RegisterResponse { Success = false });
+      if (string.IsNullOrWhiteSpace(request.Email))
+      {
+        return new RegisterResponse { Success = false };
+      }
+
+      if (request.Password.Length < 8)
+      {
+        return new RegisterResponse { Success = false };
+      }
+
+      var user = new User { Email = request.Email, Password = request.Password };
+
+      await _userRepository.AddAsync(user);
+
+      return new RegisterResponse { Success = true };
     }
   }
 }
