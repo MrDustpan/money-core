@@ -1,47 +1,88 @@
-Money
+Register
+
+As a potential user of the site
+I want the ability to self-register
+So I can start using the features of the site
+
+GIVEN I am on the registration page
+AND I have entered my email address, password and confirm password
+WHEN I click Register
+THEN a confirmation email is sent to my email address
+AND I am sent to a screen with instructions to check my email
+
+GIVEN I am on the registration page
+AND I have not entered my email address
+WHEN I click Register
+THEN an error message is displayed informing me that email address is required
+
+GIVEN I am on the registration page
+AND I have entered my email address but no password
+WHEN I click Register
+THEN an error message is displayed informing me that email address is required
+
+--------------------------
+Boundaries - data in and out of interactors and entities (api)
+Interactors - objects that implement use cases (application specific business rules)
+Entities - business objects that contain application independent business rules (ex: Order, Customer, etc.)
+
+Money.Application
+  Accounts
+    Boundaries
+      ICreateAccount.cs
+      IDeleteAccount.cs
+      IRecordTransaction.cs
+    Entities
+      Account.cs
+      AccountTransaction.cs
+      IAccountRepository.cs
+    Events
+      AccountCreated.cs
+      AccountDeleted.cs
+      TransactionRecorded.cs
+    Interactors
+      CreateAccount.cs
+      DeleteAccount.cs
+      RecordTransaction.cs
+
+  Identity
+    Boundaries
+      IConfirmAccount.cs
+      IRegisterUser.cs
+      RegisterUserRequest.cs
+      RegisterUserResponse.cs
+    Entities
+      IUserRepository.cs
+      User.cs
+    Interactors
+      ConfirmAccount.cs
+      RegisterUser.cs
+  
+  Shared
+    IConfigurationGateway.cs
+    IEmailer.cs
+    ILogger.cs
+    IResourceGateway.cs
+
+Money.Database
+  Accounts
+    AccountGateway.cs
+    AccountRepository.cs
+  Identity
+    UserRepository.cs
+  Shared
+    Repository.cs
+
+Money.Infrastructure
+  Configuration
+  Email
+  Logging
+  Resources
+
+Money.Web
+  Features
     Accounts
-        Account.cs
-        AccountTransaction.cs
-        CreateAccount
-            CreateAccountHandler.cs
-            CreateAccountRequest.cs
-            CreateAccountResponse.cs
-        DeleteAccount
-            DeleteAccountHandler.cs
-            DeleteAccountRequest.cs
-            DeleteAccountResponse.cs
-        GetAccountIndex
-            GetAccountIndexHandler.cs
-            GetAccountIndexRequest.cs
-            GetAccountIndexResponse.cs
-        RecordTransaction
-            RecordTransactionHandler.cs
-            RecordTransactionRequest.cs
-            RecordTransactionResponse.cs
-        TransferFunds
-            TransferFundsHandler.cs
-            TransferFundsRequest.cs
-            TransferFundsResponse.cs
     Budget
-    Calculators
-    Infrastructure
-        ApplicationDbContext.cs
-        DataGateway.cs
-        Repository.cs
     Identity
-        User.cs
-        Authenticate
-        Register
-            RegisterHandler.cs
-            RegisterRequest.cs
-            RegisterResponse.cs
-            ConfirmationEmailSender.cs
-        ResetPassword
-    Reports
-Web
-    Features
-        Accounts
-        Auth
-        Budget
-        Calculators
-        Reports
+    Shared
+
+UI -> Boundary -> Interactor -> Entity
