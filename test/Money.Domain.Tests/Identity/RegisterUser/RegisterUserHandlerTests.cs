@@ -1,22 +1,22 @@
 using System.Threading.Tasks;
-using Money.Domain.Identity.Boundaries;
-using Money.Domain.Identity.Entities;
-using Money.Domain.Identity.Interactors;
+using Money.Boundary.Identity.RegisterUser;
+using Money.Domain.Identity;
+using Money.Domain.Identity.RegisterUser;
 using Moq;
 using Xunit;
 
-namespace Money.Tests.Identity
+namespace Money.Tests.Identity.RegisterUser
 {
-  public class RegisterUserTests
+  public class RegisterUserHandlerTests
   {
     [Fact]
     public async Task RegistrationFailsWhenEmailIsMissing()
     {
       var request = new RegisterUserRequest { Email = "", Password = "P@ssword!!" };
       var d = new Dependencies();
-      var registerUser = GetInteractor(d);
+      var handler = GetHandler(d);
 
-      var response = await registerUser.ExecuteAsync(request);
+      var response = await handler.HandleAsync(request);
 
       Assert.Equal(RegisterUserStatus.FailureEmailRequired, response.Status);
     }
@@ -26,15 +26,15 @@ namespace Money.Tests.Identity
     {
       var request = new RegisterUserRequest { Email = "a@b.c", Password = "x" };
       var d = new Dependencies();
-      var registerUser = GetInteractor(d);
+      var handler = GetHandler(d);
 
-      var response = await registerUser.ExecuteAsync(request);
+      var response = await handler.HandleAsync(request);
 
       Assert.Equal(RegisterUserStatus.FailurePasswordRequirementsNotMet, response.Status);
     }
 
     [Fact]
-    public async Task RegisterSavesNewUserRecord()
+    public async Task SavesNewUserRecord()
     {
       var request = new RegisterUserRequest { Email = "a@b.c", Password = "P@ssword!!" };
 
@@ -44,47 +44,45 @@ namespace Money.Tests.Identity
         .Callback<User>((u) => u.Id = 99)
         .Returns(Task.CompletedTask);
       
-      var registerUser = GetInteractor(d);
+      var handler = GetHandler(d);
 
-      var response = await registerUser.ExecuteAsync(request);
+      var response = await handler.HandleAsync(request);
 
       Assert.Equal(RegisterUserStatus.Success, response.Status);
       Assert.Equal(99, response.UserId.GetValueOrDefault());
 
       d.UserRepository.Verify(x => x.AddAsync(It.Is<User>(u => 
         u.Email == "a@b.c" &&
-        u.Password == "P@ssword!!")));
+        u.Password == "P@ssword!!" &&
+        string.IsNullOrWhiteSpace(u.ConfirmationId) == false)));
     }
 
     [Fact]
-    public async Task RegisterSendsConfirmationEmail()
+    public async Task SendsConfirmationEmail()
     {
       var request = new RegisterUserRequest { Email = "a@b.c", Password = "P@ssword!!" };
       var d = new Dependencies();
-      var registerUser = GetInteractor(d);
+      var handler = GetHandler(d);
 
-      var response = await registerUser.ExecuteAsync(request);
+      var response = await handler.HandleAsync(request);
 
-      d.EmailService.Verify(x => x.SendAsync(It.Is<EmailMessage>(m =>
-        m.To[0] == "a@b.c" &&
-        m.From == "?" &&
-        m.Subject == "?" &&
-        m.Body == "?")));
+      d.Emailer.Verify(x => x.SendAsync(It.Is<User>(u => u.Email == "a@b.c")));
     }
 
-    private static IRegisterUser GetInteractor(Dependencies d)
+    private static IRegisterUserHandler GetHandler(Dependencies d)
     {
-      return new RegisterUser(d.UserRepository.Object);
+      return new RegisterUserHandler(d.UserRepository.Object, d.Emailer.Object);
     }
 
     private class Dependencies
     {
       public Mock<IUserRepository> UserRepository { get; set; }
-      //public Mock<IEmailService> EmailService { get; set; }
+      public Mock<IConfirmationEmailSender> Emailer { get; set; }
 
       public Dependencies()
       {
         UserRepository = new Mock<IUserRepository>();
+        Emailer = new Mock<IConfirmationEmailSender>();
       }
     }
   }

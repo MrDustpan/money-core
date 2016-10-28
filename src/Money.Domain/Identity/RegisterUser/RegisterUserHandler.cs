@@ -1,19 +1,21 @@
+using System;
 using System.Threading.Tasks;
-using Money.Domain.Identity.Boundaries;
-using Money.Domain.Identity.Entities;
+using Money.Boundary.Identity.RegisterUser;
 
-namespace Money.Domain.Identity.Interactors
+namespace Money.Domain.Identity.RegisterUser
 {
-  public class RegisterUser : IRegisterUser
+  public class RegisterUserHandler : IRegisterUserHandler
   {
     private readonly IUserRepository _userRepository;
+    private readonly IConfirmationEmailSender _emailer;
 
-    public RegisterUser(IUserRepository userRepository)
+    public RegisterUserHandler(IUserRepository userRepository, IConfirmationEmailSender emailer)
     {
       _userRepository = userRepository;
+      _emailer = emailer;
     }
 
-    public async Task<RegisterUserResponse> ExecuteAsync(RegisterUserRequest request)
+    public async Task<RegisterUserResponse> HandleAsync(RegisterUserRequest request)
     {
       if (string.IsNullOrWhiteSpace(request.Email))
       {
@@ -25,9 +27,16 @@ namespace Money.Domain.Identity.Interactors
         return new RegisterUserResponse { Status = RegisterUserStatus.FailurePasswordRequirementsNotMet };
       }
 
-      var user = new User { Email = request.Email, Password = request.Password };
+      var user = new User
+      {
+        Email = request.Email, 
+        Password = request.Password,
+        ConfirmationId = Guid.NewGuid().ToString()
+      };
 
       await _userRepository.AddAsync(user);
+
+      await _emailer.SendAsync(user);
 
       return new RegisterUserResponse
       { 

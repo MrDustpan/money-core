@@ -1,4 +1,4 @@
-namespace Money.Domain.Identity.Boundaries
+namespace Money.Boundary.Identity.RegisterUser
 {
   public class RegisterUserRequest
   {

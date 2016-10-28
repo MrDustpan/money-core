@@ -8,6 +8,9 @@
     "xunit": "2.1.0",
     "dotnet-test-xunit": "1.0.0-rc2-build10015",
     "moq": "4.6.38-alpha",
+    "Money.Boundary": {
+      "target": "project"
+    },
     "Money.Domain": {
       "target": "project"
     }

@@ -7,9 +7,6 @@
     "Microsoft.NETCore.App": {
       "version": "1.0.0",
       "type": "platform"
-    },
-    "Money.Boundary": {
-      "target": "project"
     }
   },
   "frameworks": {

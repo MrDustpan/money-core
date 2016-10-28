@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Money.Domain.Identity.Entities
+namespace Money.Domain.Identity
 {
   public interface IUserRepository
   {
