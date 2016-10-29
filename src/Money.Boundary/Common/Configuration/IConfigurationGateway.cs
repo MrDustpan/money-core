@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Money.Boundary.Common.Configuraion
+namespace Money.Boundary.Common.Configuration
 {
   public interface IConfigurationGateway
   {

@@ -23,8 +23,16 @@
     "Microsoft.EntityFrameworkCore": "1.0.0",
     "Microsoft.EntityFrameworkCore.InMemory": "1.0.0",
     "Scrutor": "1.6",
-    "MediatR": "2.0.0-beta-001",
-    "Money": {
+    "Money.Boundary": {
+      "target": "project"
+    },
+    "Money.Domain": {
+      "target": "project"
+    },
+    "Money.DataAccess": {
+      "target": "project"
+    },
+    "Money.Infrastructure": {
       "target": "project"
     }
   },

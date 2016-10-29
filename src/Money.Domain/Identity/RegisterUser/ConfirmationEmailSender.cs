@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Money.Boundary.Common.Configuraion;
+using Money.Boundary.Common.Configuration;
 using Money.Boundary.Common.Email;
 using Money.Boundary.Common.Resources;
 

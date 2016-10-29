@@ -7,7 +7,7 @@ using Money.Domain.Identity.RegisterUser;
 using Moq;
 using Xunit;
 
-namespace Money.Tests.Identity.RegisterUser
+namespace Money.Domain.Tests.Identity.RegisterUser
 {
   public class ConfirmationEmailSenderTests
   {

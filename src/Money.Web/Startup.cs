@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
-using MediatR;
+using Money.Domain.Identity;
+using Money.DataAccess.Identity;
+using Money.Infrastructure.Email;
 using Scrutor;
 using Web.Features.Home;
-using Money.Accounts.Models;
-using Money.Infrastructure;
-using Web;
 
 namespace Web
 {
@@ -34,8 +29,7 @@ namespace Web
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-      services.AddDbContext<ApplicationDbContext>(
-        optionsBuilder => optionsBuilder.UseInMemoryDatabase());
+      //services.AddDbContext<ApplicationDbContext>(optionsBuilder => optionsBuilder.UseInMemoryDatabase());
       
       // Add framework services.
       services.AddMvc(o => o.Conventions.Add(new FeatureConvention()))
@@ -50,15 +44,14 @@ namespace Web
         });
 
       // Add application services.
-      services.AddScoped<SingleInstanceFactory>(p => t => p.GetRequiredService(t));
+      //services.AddScoped<SingleInstanceFactory>(p => t => p.GetRequiredService(t));
 
       services.Scan(scan => scan
-                .FromAssembliesOf(typeof(IMediator), typeof(HomeController))
-                .AddClasses()
-                .AsImplementedInterfaces());
-
-      services.Scan(scan => scan
-                .FromAssembliesOf(typeof(IMediator), typeof(AccountOverview))
+                .FromAssembliesOf(
+                  typeof(HomeController), 
+                  typeof(User), 
+                  typeof(UserRepository),
+                  typeof(SendGridEmailer))
                 .AddClasses()
                 .AsImplementedInterfaces());
     }
