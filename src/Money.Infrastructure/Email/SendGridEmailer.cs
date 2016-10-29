@@ -12,7 +12,7 @@ namespace Money.Infrastructure.Email
   {
     public async Task SendAsync(EmailMessage message)
     {
-      const string apiKey = "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";
+      const string apiKey = "--redacted--";
       
       var sendGridMessage = new SendGridMessage(message);
 
