@@ -2,8 +2,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Money.Boundary.Identity.RegisterUser;
+using Money.Web.Features.Auth.ViewModels;
 
-namespace Web.Features.Auth
+namespace Money.Web.Features.Auth
 {
   public class AuthController : Controller
   {
@@ -21,15 +22,34 @@ namespace Web.Features.Auth
     }
 
     [HttpPost, AllowAnonymous]
-    public async Task<IActionResult> Register(RegisterUserRequest request)
+    public async Task<IActionResult> Register(RegisterViewModel viewModel)
     {
-      await _registerUserHandler.HandleAsync(request);
-      
-      return RedirectToAction("Index", "Home");
+      var request = new RegisterUserRequest
+      {
+        Email = viewModel.Email, 
+        Password = viewModel.Password,
+        ConfirmPassword = viewModel.ConfirmPassword
+      };
+
+      var response = await _registerUserHandler.HandleAsync(request);
+
+      if (response.Status == RegisterUserStatus.Success)
+      {
+        return RedirectToAction("Confirm", "Auth");
+      }
+
+      viewModel.LoadResult(response.Status);
+      return View(viewModel);
     }
 
     [AllowAnonymous]
     public IActionResult Login()
+    {
+      return View();
+    }
+
+    [AllowAnonymous]
+    public IActionResult Confirm(string id)
     {
       return View();
     }

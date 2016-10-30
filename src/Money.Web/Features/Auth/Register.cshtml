@@ -1,3 +1,4 @@
+@model RegisterViewModel
 @{
   ViewData["Title"] = "Register";
 }
@@ -8,9 +9,17 @@
 </div>
 <div class="row">
   <div class="col-md-6">
+    @if (Model != null && !string.IsNullOrWhiteSpace(Model.ErrorMessage))
+    {
+    <div class="panel panel-danger">
+      <div class="panel-body">
+        <span class="text-danger">@Model.ErrorMessage</span>
+      </div>
+    </div>
+    }
     <form method="POST">
       <div class="form-group">
-        <input type="text" class="form-control" id="email" name="email" placeholder="Email">
+        <input type="text" class="form-control" asp-for="Email" placeholder="Email">
       </div>
       <div class="form-group">
         <input type="password" class="form-control" id="password" name="password" placeholder="Password">

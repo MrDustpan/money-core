@@ -12,11 +12,10 @@ namespace Money.Domain.Tests.Identity.RegisterUser
     [Fact]
     public async Task RegistrationFailsWhenEmailIsMissing()
     {
-      var request = new RegisterUserRequest { Email = "", Password = "P@ssword!!" };
       var d = new Dependencies();
-      var handler = GetHandler(d);
+      d.Request.Email = "";
 
-      var response = await handler.HandleAsync(request);
+      var response = await d.Handler.HandleAsync(d.Request);
 
       Assert.Equal(RegisterUserStatus.FailureEmailRequired, response.Status);
     }
@@ -24,29 +23,46 @@ namespace Money.Domain.Tests.Identity.RegisterUser
     [Fact]
     public async Task RegistrationFailsWhenPasswordIsLessThan8() 
     {
-      var request = new RegisterUserRequest { Email = "a@b.c", Password = "x" };
       var d = new Dependencies();
-      var handler = GetHandler(d);
+      d.Request.Password = null;
 
-      var response = await handler.HandleAsync(request);
+      var response = await d.Handler.HandleAsync(d.Request);
 
       Assert.Equal(RegisterUserStatus.FailurePasswordRequirementsNotMet, response.Status);
     }
 
     [Fact]
+    public async Task RegistrationFailsWhenPasswordDoesNotMatchConfirm() 
+    {
+      var d = new Dependencies();
+      d.Request.ConfirmPassword = "sdfsdfsdf";
+
+      var response = await d.Handler.HandleAsync(d.Request);
+
+      Assert.Equal(RegisterUserStatus.FailurePasswordAndConfirmDoNotMatch, response.Status);
+    }
+
+    [Fact]
+    public async Task RegistrationFailsWhenAccountAlreadyExistsForEmail() 
+    {
+      var d = new Dependencies();
+      d.UserRepository.Setup(x => x.GetUserByEmailAsync("a@b.c")).Returns(Task.FromResult(new User()));
+
+      var response = await d.Handler.HandleAsync(d.Request);
+
+      Assert.Equal(RegisterUserStatus.FailureEmailAlreadyExists, response.Status);
+    }
+
+    [Fact]
     public async Task SavesNewUserRecord()
     {
-      var request = new RegisterUserRequest { Email = "a@b.c", Password = "P@ssword!!" };
-
       // Set the user ID when the repository is called
       var d = new Dependencies();
       d.UserRepository.Setup(x => x.AddAsync(It.IsAny<User>()))
         .Callback<User>((u) => u.Id = 99)
         .Returns(Task.CompletedTask);
-      
-      var handler = GetHandler(d);
 
-      var response = await handler.HandleAsync(request);
+      var response = await d.Handler.HandleAsync(d.Request);
 
       Assert.Equal(RegisterUserStatus.Success, response.Status);
       Assert.Equal(99, response.UserId.GetValueOrDefault());
@@ -60,29 +76,32 @@ namespace Money.Domain.Tests.Identity.RegisterUser
     [Fact]
     public async Task SendsConfirmationEmail()
     {
-      var request = new RegisterUserRequest { Email = "a@b.c", Password = "P@ssword!!" };
       var d = new Dependencies();
-      var handler = GetHandler(d);
 
-      var response = await handler.HandleAsync(request);
+      var response = await d.Handler.HandleAsync(d.Request);
 
       d.Emailer.Verify(x => x.SendAsync(It.Is<User>(u => u.Email == "a@b.c")));
-    }
-
-    private static IRegisterUserHandler GetHandler(Dependencies d)
-    {
-      return new RegisterUserHandler(d.UserRepository.Object, d.Emailer.Object);
     }
 
     private class Dependencies
     {
       public Mock<IUserRepository> UserRepository { get; set; }
       public Mock<IConfirmationEmailSender> Emailer { get; set; }
+      public RegisterUserRequest Request { get; set; }
+      public IRegisterUserHandler Handler { get; set; }
 
       public Dependencies()
       {
         UserRepository = new Mock<IUserRepository>();
         Emailer = new Mock<IConfirmationEmailSender>();
+        Handler = new RegisterUserHandler(UserRepository.Object, Emailer.Object);
+
+        Request = new RegisterUserRequest
+        {
+          Email = "a@b.c", 
+          Password = "P@ssword!!",
+          ConfirmPassword = "P@ssword!!"
+        };
       }
     }
   }

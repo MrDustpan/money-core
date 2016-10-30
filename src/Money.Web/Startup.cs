@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 using Money.Domain.Identity;
 using Money.Infrastructure.Email;
 using Scrutor;
-using Web.Features.Home;
+using Money.Web.Features.Home;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;

@@ -17,14 +17,10 @@ namespace Money.Domain.Identity.RegisterUser
 
     public async Task<RegisterUserResponse> HandleAsync(RegisterUserRequest request)
     {
-      if (string.IsNullOrWhiteSpace(request.Email))
+      var response = await ValidateRequest(request);
+      if (response.Status != RegisterUserStatus.Success)
       {
-        return new RegisterUserResponse { Status = RegisterUserStatus.FailureEmailRequired };
-      }
-
-      if (request.Password.Length < 8)
-      {
-        return new RegisterUserResponse { Status = RegisterUserStatus.FailurePasswordRequirementsNotMet };
+        return response;
       }
 
       var user = new User
@@ -35,14 +31,42 @@ namespace Money.Domain.Identity.RegisterUser
       };
 
       await _userRepository.AddAsync(user);
+      response.UserId = user.Id;
 
       await _emailer.SendAsync(user);
 
-      return new RegisterUserResponse
-      { 
-        Status = RegisterUserStatus.Success,
-        UserId = user.Id
-      };
+      return response;
+    }
+
+    private async Task<RegisterUserResponse> ValidateRequest(RegisterUserRequest request)
+    {
+      if (string.IsNullOrWhiteSpace(request.Email))
+      {
+        return Response(RegisterUserStatus.FailureEmailRequired);
+      }
+
+      if (string.IsNullOrEmpty(request.Password) || request.Password.Length < 8)
+      {
+        return Response(RegisterUserStatus.FailurePasswordRequirementsNotMet);
+      }
+
+      if (request.Password != request.ConfirmPassword)
+      {
+        return Response(RegisterUserStatus.FailurePasswordAndConfirmDoNotMatch);
+      }
+
+      var existing = await _userRepository.GetUserByEmailAsync(request.Email);
+      if (existing != null)
+      {
+        return Response(RegisterUserStatus.FailureEmailAlreadyExists);
+      }
+
+      return Response(RegisterUserStatus.Success);
+    }
+
+    private static RegisterUserResponse Response(RegisterUserStatus status)
+    {
+      return new RegisterUserResponse { Status = status };
     }
   }
 }

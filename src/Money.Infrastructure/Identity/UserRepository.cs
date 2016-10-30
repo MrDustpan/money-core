@@ -9,5 +9,10 @@ namespace Money.Infrastructure.Identity
     {
       await Task.CompletedTask;
     }
+
+    public async Task<User> GetUserByEmailAsync(string email)
+    {
+      return await Task.FromResult((User)null);
+    }
   }
 }

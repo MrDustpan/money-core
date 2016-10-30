@@ -10,6 +10,8 @@ namespace Money.Boundary.Identity.RegisterUser
   {
     FailureEmailRequired,
     FailurePasswordRequirementsNotMet,
+    FailurePasswordAndConfirmDoNotMatch,
+    FailureEmailAlreadyExists,
     Success
   }
 }
