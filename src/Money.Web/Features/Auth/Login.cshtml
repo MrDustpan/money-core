@@ -1,9 +1,9 @@
 @{
-  ViewData["Title"] = "Register";
+  ViewData["Title"] = "Sign In";
 }
 <div class="row">
   <div class="col-md-6">
-    <h2>Register</h2>
+    <h2>Sign In</h2>
   </div>
 </div>
 <div class="row">
@@ -16,13 +16,10 @@
         <input type="password" class="form-control" id="password" name="password" placeholder="Password">
       </div>
       <div class="form-group">
-        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password">
+        <button type="submit" class="btn btn-primary">Sign In</button>
       </div>
       <div class="form-group">
-        <button type="submit" class="btn btn-primary">Register</button>
-      </div>
-      <div class="form-group">
-        Already have an account? <a asp-controller="auth" asp-action="login">Sign in here</a>.
+        Don't have an account yet? <a asp-controller="auth" asp-action="register">Register here</a>.
       </div>
     </form>
   </div>

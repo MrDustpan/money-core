@@ -234,3 +234,6 @@ _Pvt_Extensions
 .fake/
 
 .DS_Store
+
+# Local settings
+appsettings.local.json

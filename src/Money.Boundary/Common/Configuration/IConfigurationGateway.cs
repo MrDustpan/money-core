@@ -6,5 +6,6 @@ namespace Money.Boundary.Common.Configuration
   {
     Task<string> GetRegisterUserEmailFromAsync();
     Task<string> GetAccountConfirmationUrlAsync();
+    Task<string> GetSendGridApiKeyAsync();
   }
 }

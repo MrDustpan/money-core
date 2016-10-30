@@ -9,6 +9,9 @@ using Money.DataAccess.Identity;
 using Money.Infrastructure.Email;
 using Scrutor;
 using Web.Features.Home;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web
 {
@@ -32,28 +35,36 @@ namespace Web
       //services.AddDbContext<ApplicationDbContext>(optionsBuilder => optionsBuilder.UseInMemoryDatabase());
       
       // Add framework services.
-      services.AddMvc(o => o.Conventions.Add(new FeatureConvention()))
-        .AddRazorOptions(options => 
-        {
-          options.ViewLocationFormats.Clear();
-          options.ViewLocationFormats.Add("/Features/{3}/{1}/{0}.cshtml");
-          options.ViewLocationFormats.Add("/Features/{3}/{0}.cshtml");
-          options.ViewLocationFormats.Add("/Features/Shared/{0}.cshtml");
+      services.AddMvc(options => 
+      {
+        var policy = new AuthorizationPolicyBuilder()
+          .RequireAuthenticatedUser()
+          .Build();
+                 
+        options.Filters.Add(new AuthorizeFilter(policy));
+        options.Conventions.Add(new FeatureConvention());
+      })
+      .AddRazorOptions(options => 
+      {
+        options.ViewLocationFormats.Clear();
+        options.ViewLocationFormats.Add("/Features/{3}/{1}/{0}.cshtml");
+        options.ViewLocationFormats.Add("/Features/{3}/{0}.cshtml");
+        options.ViewLocationFormats.Add("/Features/Shared/{0}.cshtml");
 
-          options.ViewLocationExpanders.Add(new FeatureViewLocationExpander());
-        });
+        options.ViewLocationExpanders.Add(new FeatureViewLocationExpander());
+      });
 
       // Add application services.
       //services.AddScoped<SingleInstanceFactory>(p => t => p.GetRequiredService(t));
 
       services.Scan(scan => scan
-                .FromAssembliesOf(
-                  typeof(HomeController), 
-                  typeof(User), 
-                  typeof(UserRepository),
-                  typeof(SendGridEmailer))
-                .AddClasses()
-                .AsImplementedInterfaces());
+        .FromAssembliesOf(
+          typeof(HomeController), 
+          typeof(User), 
+          typeof(UserRepository),
+          typeof(SendGridEmailer))
+        .AddClasses()
+        .AsImplementedInterfaces());
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,20 +75,29 @@ namespace Web
 
       if (env.IsDevelopment())
       {
-          app.UseDeveloperExceptionPage();
+        app.UseDeveloperExceptionPage();
       }
       else
       {
-          app.UseExceptionHandler("/Home/Error");
+        app.UseExceptionHandler("/Home/Error");
       }
 
       app.UseStaticFiles();
 
+      app.UseCookieAuthentication(new CookieAuthenticationOptions()
+      {
+          AuthenticationScheme = "MyCookieMiddlewareInstance",
+          LoginPath = new PathString("/auth/login"),
+          AccessDeniedPath = new PathString("/auth/login"),
+          AutomaticAuthenticate = true,
+          AutomaticChallenge = true
+      });
+      
       app.UseMvc(routes =>
       {
-          routes.MapRoute(
-              name: "default",
-              template: "{controller=Home}/{action=Index}/{id?}");
+        routes.MapRoute(
+          name: "default",
+          template: "{controller=Home}/{action=Index}/{id?}");
       });
     }
   }
