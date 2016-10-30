@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Money.Boundary.Common.Resources;
 
 namespace Money.Infrastructure.Resources
 {

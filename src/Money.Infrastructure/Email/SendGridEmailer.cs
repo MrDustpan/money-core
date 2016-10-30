@@ -3,8 +3,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Money.Boundary.Common.Configuration;
-using Money.Boundary.Common.Email;
+using Money.Infrastructure.Configuration;
 using Newtonsoft.Json;
 
 namespace Money.Infrastructure.Email

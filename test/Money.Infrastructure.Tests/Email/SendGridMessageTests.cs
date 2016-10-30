@@ -1,4 +1,3 @@
-using Money.Boundary.Common.Email;
 using Money.Infrastructure.Email;
 using Xunit;
 

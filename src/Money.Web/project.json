@@ -30,9 +30,6 @@
     "Money.Domain": {
       "target": "project"
     },
-    "Money.DataAccess": {
-      "target": "project"
-    },
     "Money.Infrastructure": {
       "target": "project"
     }

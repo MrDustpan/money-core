@@ -1,9 +1,10 @@
 using System.Threading.Tasks;
-using Money.Boundary.Common.Configuration;
-using Money.Boundary.Common.Email;
-using Money.Boundary.Common.Resources;
+using Money.Domain.Identity;
+using Money.Domain.Identity.RegisterUser;
+using Money.Infrastructure.Configuration;
+using Money.Infrastructure.Resources;
 
-namespace Money.Domain.Identity.RegisterUser
+namespace Money.Infrastructure.Email
 {
   public class ConfirmationEmailSender : IConfirmationEmailSender
   {
@@ -41,10 +42,5 @@ namespace Money.Domain.Identity.RegisterUser
 
       return string.IsNullOrWhiteSpace(body) ? "" : string.Format(body, fullUrl);
     }
-  }
-
-  public interface IConfirmationEmailSender
-  {
-    Task SendAsync(User user);
   }
 }

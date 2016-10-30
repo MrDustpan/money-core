@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Money.Boundary.Common.Email
+namespace Money.Infrastructure.Email
 {
   public interface IEmailer
   {

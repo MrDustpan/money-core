@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Money.Boundary.Common.Resources
+namespace Money.Infrastructure.Resources
 {
   public interface IResourceGateway
   {

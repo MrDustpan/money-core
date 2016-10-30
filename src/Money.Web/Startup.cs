@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Money.Domain.Identity;
-using Money.DataAccess.Identity;
 using Money.Infrastructure.Email;
 using Scrutor;
 using Web.Features.Home;
@@ -59,10 +58,9 @@ namespace Web
 
       services.Scan(scan => scan
         .FromAssembliesOf(
-          typeof(HomeController), 
-          typeof(User), 
-          typeof(UserRepository),
-          typeof(SendGridEmailer))
+          typeof(HomeController),  // Money.Web
+          typeof(User),            // Money.Domain
+          typeof(SendGridEmailer)) // Money.Infrastructure
         .AddClasses()
         .AsImplementedInterfaces());
     }

@@ -1,7 +1,6 @@
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using Money.Boundary.Common.Configuration;
 
 namespace Money.Infrastructure.Configuration
 {

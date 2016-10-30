@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Money.Boundary.Common.Email;
 
 namespace Money.Infrastructure.Email
 {

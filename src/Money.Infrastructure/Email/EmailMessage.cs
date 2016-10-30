@@ -1,4 +1,4 @@
-namespace Money.Boundary.Common.Email
+namespace Money.Infrastructure.Email
 {
   public class EmailMessage
   {

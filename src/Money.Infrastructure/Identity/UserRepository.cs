@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using Money.Domain.Identity;
 
-namespace Money.DataAccess.Identity
+namespace Money.Infrastructure.Identity
 {
   public class UserRepository : IUserRepository
   {
