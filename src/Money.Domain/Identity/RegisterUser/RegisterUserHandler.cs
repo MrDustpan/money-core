@@ -27,7 +27,8 @@ namespace Money.Domain.Identity.RegisterUser
       {
         Email = request.Email, 
         Password = request.Password,
-        ConfirmationId = Guid.NewGuid().ToString()
+        ConfirmationId = Guid.NewGuid().ToString(),
+        Status = UserStatus.Pending
       };
 
       await _userRepository.AddAsync(user);

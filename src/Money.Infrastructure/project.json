@@ -17,7 +17,8 @@
     "Money.Domain": {
       "target": "project"
     },
-    "Newtonsoft.Json": "9.0.1"
+    "Newtonsoft.Json": "9.0.1",
+    "Dapper": "1.50.2"
   },
   "frameworks": {
     "netcoreapp1.0": {

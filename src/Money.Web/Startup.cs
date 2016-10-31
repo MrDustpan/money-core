@@ -11,6 +11,7 @@ using Money.Web.Features.Home;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
+using System.Reflection;
 
 namespace Web
 {

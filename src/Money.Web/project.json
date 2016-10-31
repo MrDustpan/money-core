@@ -24,6 +24,7 @@
     "Microsoft.EntityFrameworkCore": "1.0.0",
     "Microsoft.EntityFrameworkCore.InMemory": "1.0.0",
     "Scrutor": "1.6",
+    "Dapper": "1.50.2",
     "Money.Boundary": {
       "target": "project"
     },

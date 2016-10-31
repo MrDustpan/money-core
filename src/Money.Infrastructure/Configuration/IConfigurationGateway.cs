@@ -7,5 +7,6 @@ namespace Money.Infrastructure.Configuration
     Task<string> GetRegisterUserEmailFromAsync();
     Task<string> GetAccountConfirmationUrlAsync();
     Task<string> GetSendGridApiKeyAsync();
+    Task<string> GetConnectionStringAsync();
   }
 }

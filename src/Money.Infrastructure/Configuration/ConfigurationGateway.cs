@@ -31,5 +31,10 @@ namespace Money.Infrastructure.Configuration
     {
       return Task.FromResult(_config["SendGridApiKey"]);
     }
+
+    public Task<string> GetConnectionStringAsync()
+    {
+      return Task.FromResult(_config.GetConnectionString("DefaultConnection"));
+    }
   }
 }

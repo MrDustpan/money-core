@@ -70,6 +70,7 @@ namespace Money.Domain.Tests.Identity.RegisterUser
       d.UserRepository.Verify(x => x.AddAsync(It.Is<User>(u => 
         u.Email == "a@b.c" &&
         u.Password == "P@ssword!!" &&
+        u.Status == UserStatus.Pending &&
         string.IsNullOrWhiteSpace(u.ConfirmationId) == false)));
     }
 
