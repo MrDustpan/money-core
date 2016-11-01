@@ -31,7 +31,14 @@ namespace Money.Infrastructure.Identity
 
     public async Task<User> GetUserByEmailAsync(string email)
     {
-      return await Task.FromResult((User)null);
+      const string sql = 
+        @"select [Id], [Email], [Password], [ConfirmationId], [Status]
+        from [User] where [Email] = @email";
+      
+      using (var conn = await _db.OpenAsync())
+      {
+        return (await conn.QueryAsync<User>(sql, new { email })).SingleOrDefault();
+      }
     }
   }
 }
