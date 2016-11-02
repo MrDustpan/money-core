@@ -4,9 +4,9 @@ namespace Money.Infrastructure.Configuration
 {
   public interface IConfigurationGateway
   {
-    Task<string> GetRegisterUserEmailFromAsync();
-    Task<string> GetAccountConfirmationUrlAsync();
-    Task<string> GetSendGridApiKeyAsync();
-    Task<string> GetConnectionStringAsync();
+    Task<string> GetRegisterUserEmailFrom();
+    Task<string> GetAccountConfirmationUrl();
+    Task<string> GetSendGridApiKey();
+    Task<string> GetConnectionString();
   }
 }

@@ -20,7 +20,7 @@ namespace Money.Domain.Identity.RegisterUser
       _hasher = hasher;
     }
 
-    public async Task<RegisterUserResponse> HandleAsync(RegisterUserRequest request)
+    public async Task<RegisterUserResponse> Handle(RegisterUserRequest request)
     {
       var response = await ValidateRequest(request);
       if (response.Status != RegisterUserStatus.Success)
@@ -36,10 +36,10 @@ namespace Money.Domain.Identity.RegisterUser
         Status = UserStatus.Pending
       };
 
-      await _userRepository.AddAsync(user);
+      await _userRepository.Add(user);
       response.UserId = user.Id;
 
-      await _emailer.SendAsync(user);
+      await _emailer.Send(user);
 
       return response;
     }
@@ -61,7 +61,7 @@ namespace Money.Domain.Identity.RegisterUser
         return Response(RegisterUserStatus.FailurePasswordAndConfirmDoNotMatch);
       }
 
-      var existing = await _userRepository.GetUserByEmailAsync(request.Email);
+      var existing = await _userRepository.GetUserByEmail(request.Email);
       if (existing != null)
       {
         return Response(RegisterUserStatus.FailureEmailAlreadyExists);

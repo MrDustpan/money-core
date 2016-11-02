@@ -19,35 +19,35 @@ namespace Money.Infrastructure.Tests.Identity
 
       var emailer = GetConfirmationEmailSender(d);
 
-      await emailer.SendAsync(d.User);
+      await emailer.Send(d.User);
 
-      d.Emailer.Verify(x => x.SendAsync(It.Is<EmailMessage>(e => e.To == d.User.Email)));
+      d.Emailer.Verify(x => x.Send(It.Is<EmailMessage>(e => e.To == d.User.Email)));
     }
 
     [Fact]
     public async Task FromAddressIsSetFromConfig()
     {
       var d = new Dependencies();
-      d.Config.Setup(x => x.GetRegisterUserEmailFromAsync()).Returns(Task.FromResult("x@y.z"));
+      d.Config.Setup(x => x.GetRegisterUserEmailFrom()).Returns(Task.FromResult("x@y.z"));
 
       var emailer = GetConfirmationEmailSender(d);
 
-      await emailer.SendAsync(d.User);
+      await emailer.Send(d.User);
 
-      d.Emailer.Verify(x => x.SendAsync(It.Is<EmailMessage>(e => e.From == "x@y.z")));
+      d.Emailer.Verify(x => x.Send(It.Is<EmailMessage>(e => e.From == "x@y.z")));
     }
 
     [Fact]
     public async Task SubjectIsSetFromResource()
     {
       var d = new Dependencies();
-      d.Resources.Setup(x => x.GetRegisterUserSubjectAsync()).Returns(Task.FromResult("Confirm your account"));
+      d.Resources.Setup(x => x.GetRegisterUserSubject()).Returns(Task.FromResult("Confirm your account"));
 
       var emailer = GetConfirmationEmailSender(d);
 
-      await emailer.SendAsync(d.User);
+      await emailer.Send(d.User);
 
-      d.Emailer.Verify(x => x.SendAsync(It.Is<EmailMessage>(e => e.Subject == "Confirm your account")));
+      d.Emailer.Verify(x => x.Send(It.Is<EmailMessage>(e => e.Subject == "Confirm your account")));
     }
 
     [Fact]
@@ -55,21 +55,21 @@ namespace Money.Infrastructure.Tests.Identity
     {
       var d = new Dependencies();
 
-      d.Config.Setup(x => x.GetAccountConfirmationUrlAsync()).Returns(Task.FromResult("confirm?id={0}"));
+      d.Config.Setup(x => x.GetAccountConfirmationUrl()).Returns(Task.FromResult("confirm?id={0}"));
 
       d.User.ConfirmationId = "abc123";
 
       d.Resources
-        .Setup(x => x.GetRegisterUserBodyAsync())
+        .Setup(x => x.GetRegisterUserBody())
         .Returns(Task.FromResult("Click here to <a href=\"{0}\">confirm your account.</a>"));
 
       const string expected = "Click here to <a href=\"confirm?id=abc123\">confirm your account.</a>";
 
       var emailer = GetConfirmationEmailSender(d);
 
-      await emailer.SendAsync(d.User);
+      await emailer.Send(d.User);
 
-      d.Emailer.Verify(x => x.SendAsync(It.Is<EmailMessage>(e => e.Body == expected)));
+      d.Emailer.Verify(x => x.Send(It.Is<EmailMessage>(e => e.Body == expected)));
     }
 
     private static IConfirmationEmailSender GetConfirmationEmailSender(Dependencies d)

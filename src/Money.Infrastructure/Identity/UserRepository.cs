@@ -16,7 +16,7 @@ namespace Money.Infrastructure.Identity
       _db = db;
     }
 
-    public async Task AddAsync(User user)
+    public async Task Add(User user)
     {
       const string sql = 
         @"insert into [User] ([Email], [Password], [ConfirmationId], [Status]) 
@@ -24,40 +24,40 @@ namespace Money.Infrastructure.Identity
         
         select cast(SCOPE_IDENTITY() as int)";
       
-      using (var conn = await _db.OpenAsync())
+      using (var conn = await _db.Open())
       {
         user.Id = (await conn.QueryAsync<int>(sql, user)).Single();
       }
     }
 
-    public async Task UpdateAsync(User user)
+    public async Task Update(User user)
     {
       const string sql = 
         @"update [User] set [Email] = @email, [Password] = @password, 
         [ConfirmationId] = @confirmationId, [Status] = @status 
         where [Id] = @id";
       
-      using (var conn = await _db.OpenAsync())
+      using (var conn = await _db.Open())
       {
         await conn.ExecuteAsync(sql, user);
       }
     }
 
-    public async Task<User> GetUserByEmailAsync(string email)
+    public async Task<User> GetUserByEmail(string email)
     {
       const string sql = SelectSql + " where [Email] = @email";
       
-      using (var conn = await _db.OpenAsync())
+      using (var conn = await _db.Open())
       {
         return (await conn.QueryAsync<User>(sql, new { email })).SingleOrDefault();
       }
     }
 
-    public async Task<User> GetUserByConfirmationIdAsync(string confirmationId)
+    public async Task<User> GetUserByConfirmationId(string confirmationId)
     {
       const string sql = SelectSql + " where [ConfirmationId] = @confirmationId";
       
-      using (var conn = await _db.OpenAsync())
+      using (var conn = await _db.Open())
       {
         return (await conn.QueryAsync<User>(sql, new { confirmationId })).SingleOrDefault();
       }

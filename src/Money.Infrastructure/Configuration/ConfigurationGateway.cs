@@ -17,22 +17,22 @@ namespace Money.Infrastructure.Configuration
       _config = builder.Build();
     }
 
-    public Task<string> GetRegisterUserEmailFromAsync()
+    public Task<string> GetRegisterUserEmailFrom()
     {
       return Task.FromResult(_config["RegisterUserEmailFrom"]);
     }
 
-    public Task<string> GetAccountConfirmationUrlAsync()
+    public Task<string> GetAccountConfirmationUrl()
     {
       return Task.FromResult(_config["AccountConfirmationUrl"]);
     }
 
-    public Task<string> GetSendGridApiKeyAsync()
+    public Task<string> GetSendGridApiKey()
     {
       return Task.FromResult(_config["SendGridApiKey"]);
     }
 
-    public Task<string> GetConnectionStringAsync()
+    public Task<string> GetConnectionString()
     {
       return Task.FromResult(_config.GetConnectionString("DefaultConnection"));
     }

@@ -12,11 +12,11 @@ namespace Money.Domain.Identity.RegisterUser
       _userRepository = userRepository;
     }
 
-    public async Task<ConfirmAccountResponse> HandleAsync(ConfirmAccountRequest request)
+    public async Task<ConfirmAccountResponse> Handle(ConfirmAccountRequest request)
     {
       var response = new ConfirmAccountResponse { Status = ConfirmAccountStatus.Success };
 
-      var user = await _userRepository.GetUserByConfirmationIdAsync(request.Id);
+      var user = await _userRepository.GetUserByConfirmationId(request.Id);
 
       if (user == null)
       {
@@ -33,7 +33,7 @@ namespace Money.Domain.Identity.RegisterUser
       user.Status = UserStatus.Confirmed;
       user.ConfirmationId = null;
 
-      await _userRepository.UpdateAsync(user);
+      await _userRepository.Update(user);
 
       return response;
     }

@@ -14,9 +14,9 @@ namespace Money.Infrastructure.DataAccess
       _config = config;
     }
     
-    public async Task<IDbConnection> OpenAsync()
+    public async Task<IDbConnection> Open()
     {
-      var cs = await _config.GetConnectionStringAsync();
+      var cs = await _config.GetConnectionString();
       var conn = new SqlConnection(cs);
       await conn.OpenAsync();
       return conn;

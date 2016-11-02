@@ -15,9 +15,9 @@ namespace Money.Domain.Tests.Identity.RegisterUser
       var d = new Dependencies();
 
       d.UserRepository.Setup(x => 
-        x.GetUserByConfirmationIdAsync("abc123")).Returns(Task.FromResult((User)null));
+        x.GetUserByConfirmationId("abc123")).Returns(Task.FromResult((User)null));
 
-      var response = await d.HandleAsync();
+      var response = await d.Handle();
 
       Assert.Equal(ConfirmAccountStatus.FailureConfirmationIdNotFound, response.Status);
     }
@@ -30,9 +30,9 @@ namespace Money.Domain.Tests.Identity.RegisterUser
       var d = new Dependencies();
 
       d.UserRepository.Setup(x => 
-        x.GetUserByConfirmationIdAsync("abc123")).Returns(Task.FromResult(user));
+        x.GetUserByConfirmationId("abc123")).Returns(Task.FromResult(user));
 
-      var response = await d.HandleAsync();
+      var response = await d.Handle();
 
       Assert.Equal(ConfirmAccountStatus.FailureAlreadyConfirmed, response.Status);
     }
@@ -50,14 +50,14 @@ namespace Money.Domain.Tests.Identity.RegisterUser
       var d = new Dependencies();
 
       d.UserRepository.Setup(x => 
-        x.GetUserByConfirmationIdAsync("abc123")).Returns(Task.FromResult(user));
+        x.GetUserByConfirmationId("abc123")).Returns(Task.FromResult(user));
 
-      var response = await d.HandleAsync();
+      var response = await d.Handle();
 
       Assert.Equal(ConfirmAccountStatus.Success, response.Status);
       Assert.Equal(UserStatus.Confirmed, user.Status);
       Assert.Null(user.ConfirmationId);
-      d.UserRepository.Verify(x => x.UpdateAsync(user));
+      d.UserRepository.Verify(x => x.Update(user));
     }
 
     private class Dependencies
@@ -73,9 +73,9 @@ namespace Money.Domain.Tests.Identity.RegisterUser
         Handler = new ConfirmAccountHandler(UserRepository.Object);
       }
 
-      public async Task<ConfirmAccountResponse> HandleAsync()
+      public async Task<ConfirmAccountResponse> Handle()
       {
-        return await Handler.HandleAsync(Request);
+        return await Handler.Handle(Request);
       }
     }
   }

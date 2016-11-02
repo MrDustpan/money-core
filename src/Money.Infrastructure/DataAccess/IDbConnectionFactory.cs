@@ -5,6 +5,6 @@ namespace Money.Infrastructure.DataAccess
 {
   public interface IDbConnectionFactory
   {
-    Task<IDbConnection> OpenAsync();
+    Task<IDbConnection> Open();
   }
 }

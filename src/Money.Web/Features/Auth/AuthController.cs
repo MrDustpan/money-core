@@ -35,7 +35,7 @@ namespace Money.Web.Features.Auth
         ConfirmPassword = viewModel.ConfirmPassword
       };
 
-      var response = await _registerUserHandler.HandleAsync(request);
+      var response = await _registerUserHandler.Handle(request);
 
       if (response.Status == RegisterUserStatus.Success)
       {
@@ -61,7 +61,7 @@ namespace Money.Web.Features.Auth
       }
 
       var request = new ConfirmAccountRequest { Id = id };
-      var response = await _confirmAccountHandler.HandleAsync(request);
+      var response = await _confirmAccountHandler.Handle(request);
       
       return View(new ConfirmViewModel(response.Status));
     }

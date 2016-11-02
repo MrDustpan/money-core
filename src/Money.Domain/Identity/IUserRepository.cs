@@ -4,9 +4,9 @@ namespace Money.Domain.Identity
 {
   public interface IUserRepository
   {
-    Task AddAsync(User user);
-    Task UpdateAsync(User user);
-    Task<User> GetUserByEmailAsync(string email);
-    Task<User> GetUserByConfirmationIdAsync(string email);
+    Task Add(User user);
+    Task Update(User user);
+    Task<User> GetUserByEmail(string email);
+    Task<User> GetUserByConfirmationId(string email);
   }
 }

@@ -15,7 +15,7 @@ namespace Money.Domain.Tests.Identity.RegisterUser
       var d = new Dependencies();
       d.Request.Email = "";
 
-      var response = await d.Handler.HandleAsync(d.Request);
+      var response = await d.Handler.Handle(d.Request);
 
       Assert.Equal(RegisterUserStatus.FailureEmailRequired, response.Status);
     }
@@ -26,7 +26,7 @@ namespace Money.Domain.Tests.Identity.RegisterUser
       var d = new Dependencies();
       d.Request.Password = null;
 
-      var response = await d.Handler.HandleAsync(d.Request);
+      var response = await d.Handler.Handle(d.Request);
 
       Assert.Equal(RegisterUserStatus.FailurePasswordRequirementsNotMet, response.Status);
     }
@@ -37,7 +37,7 @@ namespace Money.Domain.Tests.Identity.RegisterUser
       var d = new Dependencies();
       d.Request.ConfirmPassword = "sdfsdfsdf";
 
-      var response = await d.Handler.HandleAsync(d.Request);
+      var response = await d.Handler.Handle(d.Request);
 
       Assert.Equal(RegisterUserStatus.FailurePasswordAndConfirmDoNotMatch, response.Status);
     }
@@ -46,9 +46,9 @@ namespace Money.Domain.Tests.Identity.RegisterUser
     public async Task RegistrationFailsWhenAccountAlreadyExistsForEmail() 
     {
       var d = new Dependencies();
-      d.UserRepository.Setup(x => x.GetUserByEmailAsync("a@b.c")).Returns(Task.FromResult(new User()));
+      d.UserRepository.Setup(x => x.GetUserByEmail("a@b.c")).Returns(Task.FromResult(new User()));
 
-      var response = await d.Handler.HandleAsync(d.Request);
+      var response = await d.Handler.Handle(d.Request);
 
       Assert.Equal(RegisterUserStatus.FailureEmailAlreadyExists, response.Status);
     }
@@ -58,16 +58,16 @@ namespace Money.Domain.Tests.Identity.RegisterUser
     {
       // Set the user ID when the repository is called
       var d = new Dependencies();
-      d.UserRepository.Setup(x => x.AddAsync(It.IsAny<User>()))
+      d.UserRepository.Setup(x => x.Add(It.IsAny<User>()))
         .Callback<User>((u) => u.Id = 99)
         .Returns(Task.CompletedTask);
 
-      var response = await d.Handler.HandleAsync(d.Request);
+      var response = await d.Handler.Handle(d.Request);
 
       Assert.Equal(RegisterUserStatus.Success, response.Status);
       Assert.Equal(99, response.UserId.GetValueOrDefault());
 
-      d.UserRepository.Verify(x => x.AddAsync(It.Is<User>(u => 
+      d.UserRepository.Verify(x => x.Add(It.Is<User>(u => 
         u.Email == "a@b.c" &&
         u.Password == "--hashed--" &&
         u.Status == UserStatus.Pending &&
@@ -79,9 +79,9 @@ namespace Money.Domain.Tests.Identity.RegisterUser
     {
       var d = new Dependencies();
 
-      var response = await d.Handler.HandleAsync(d.Request);
+      var response = await d.Handler.Handle(d.Request);
 
-      d.Emailer.Verify(x => x.SendAsync(It.Is<User>(u => u.Email == "a@b.c")));
+      d.Emailer.Verify(x => x.Send(It.Is<User>(u => u.Email == "a@b.c")));
     }
 
     private class Dependencies

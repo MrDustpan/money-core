@@ -17,9 +17,9 @@ namespace Money.Infrastructure.Email
       _config = config;
     }
 
-    public async Task SendAsync(EmailMessage message)
+    public async Task Send(EmailMessage message)
     {
-      var apiKey = await _config.GetSendGridApiKeyAsync();
+      var apiKey = await _config.GetSendGridApiKey();
       
       var content = GetMessageContent(message);
 

@@ -20,26 +20,26 @@ namespace Money.Infrastructure.Identity
       _resources = resources;
     }
 
-    public async Task SendAsync(User user)
+    public async Task Send(User user)
     {
       var message = new EmailMessage
       { 
         To = user.Email,
-        From = await _config.GetRegisterUserEmailFromAsync(),
-        Subject = await _resources.GetRegisterUserSubjectAsync(),
+        From = await _config.GetRegisterUserEmailFrom(),
+        Subject = await _resources.GetRegisterUserSubject(),
         Body = await GetBody(user.ConfirmationId)
       };
 
-      await _emailer.SendAsync(message);
+      await _emailer.Send(message);
     }
 
     private async Task<string> GetBody(string confirmationId)
     {
-      var url = await _config.GetAccountConfirmationUrlAsync();
+      var url = await _config.GetAccountConfirmationUrl();
 
       var fullUrl = string.IsNullOrWhiteSpace(url) ? "" : string.Format(url, confirmationId);
 
-      var body = await _resources.GetRegisterUserBodyAsync();
+      var body = await _resources.GetRegisterUserBody();
 
       return string.IsNullOrWhiteSpace(body) ? "" : string.Format(body, fullUrl);
     }

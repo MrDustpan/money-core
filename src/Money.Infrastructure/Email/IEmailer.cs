@@ -4,6 +4,6 @@ namespace Money.Infrastructure.Email
 {
   public interface IEmailer
   {
-    Task SendAsync(EmailMessage message);
+    Task Send(EmailMessage message);
   }
 }
