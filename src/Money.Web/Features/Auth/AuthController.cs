@@ -9,10 +9,14 @@ namespace Money.Web.Features.Auth
   public class AuthController : Controller
   {
     private readonly IRegisterUserHandler _registerUserHandler;
+    private readonly IConfirmAccountHandler _confirmAccountHandler;
 
-    public AuthController(IRegisterUserHandler registerUserHandler)
+    public AuthController(
+      IRegisterUserHandler registerUserHandler,
+      IConfirmAccountHandler confirmAccountHandler)
     {
       _registerUserHandler = registerUserHandler;
+      _confirmAccountHandler = confirmAccountHandler;
     }
 
     [AllowAnonymous]
@@ -49,9 +53,17 @@ namespace Money.Web.Features.Auth
     }
 
     [AllowAnonymous]
-    public IActionResult Confirm(string id)
+    public async Task<IActionResult> Confirm(string id)
     {
-      return View();
+      if (string.IsNullOrWhiteSpace(id))
+      {
+        return View(new ConfirmViewModel());
+      }
+
+      var request = new ConfirmAccountRequest { Id = id };
+      var response = await _confirmAccountHandler.HandleAsync(request);
+      
+      return View(new ConfirmViewModel(response.Status));
     }
   }
 }

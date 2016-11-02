@@ -9,6 +9,7 @@ namespace Money.Infrastructure.Identity
   public class UserRepository : IUserRepository
   {
     private readonly IDbConnectionFactory _db;
+    private const string SelectSql = "select [Id], [Email], [Password], [ConfirmationId], [Status] from [User]";
 
     public UserRepository(IDbConnectionFactory db)
     {
@@ -29,15 +30,36 @@ namespace Money.Infrastructure.Identity
       }
     }
 
-    public async Task<User> GetUserByEmailAsync(string email)
+    public async Task UpdateAsync(User user)
     {
       const string sql = 
-        @"select [Id], [Email], [Password], [ConfirmationId], [Status]
-        from [User] where [Email] = @email";
+        @"update [User] set [Email] = @email, [Password] = @password, 
+        [ConfirmationId] = @confirmationId, [Status] = @status 
+        where [Id] = @id";
+      
+      using (var conn = await _db.OpenAsync())
+      {
+        await conn.ExecuteAsync(sql, user);
+      }
+    }
+
+    public async Task<User> GetUserByEmailAsync(string email)
+    {
+      const string sql = SelectSql + " where [Email] = @email";
       
       using (var conn = await _db.OpenAsync())
       {
         return (await conn.QueryAsync<User>(sql, new { email })).SingleOrDefault();
+      }
+    }
+
+    public async Task<User> GetUserByConfirmationIdAsync(string confirmationId)
+    {
+      const string sql = SelectSql + " where [ConfirmationId] = @confirmationId";
+      
+      using (var conn = await _db.OpenAsync())
+      {
+        return (await conn.QueryAsync<User>(sql, new { confirmationId })).SingleOrDefault();
       }
     }
   }
