@@ -31,6 +31,7 @@ namespace Money.Domain.Identity.RegisterUser
       }
 
       user.Status = UserStatus.Confirmed;
+      user.ConfirmationId = null;
 
       await _userRepository.UpdateAsync(user);
 

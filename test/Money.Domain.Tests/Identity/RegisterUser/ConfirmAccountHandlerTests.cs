@@ -43,7 +43,8 @@ namespace Money.Domain.Tests.Identity.RegisterUser
       var user = new User
       {
         Id = 99,
-        Status = UserStatus.Pending
+        Status = UserStatus.Pending,
+        ConfirmationId = "abc123"
       };
 
       var d = new Dependencies();
