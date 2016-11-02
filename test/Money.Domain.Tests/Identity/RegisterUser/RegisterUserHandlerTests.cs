@@ -69,7 +69,7 @@ namespace Money.Domain.Tests.Identity.RegisterUser
 
       d.UserRepository.Verify(x => x.AddAsync(It.Is<User>(u => 
         u.Email == "a@b.c" &&
-        u.Password == "P@ssword!!" &&
+        u.Password == "--hashed--" &&
         u.Status == UserStatus.Pending &&
         string.IsNullOrWhiteSpace(u.ConfirmationId) == false)));
     }
@@ -88,6 +88,7 @@ namespace Money.Domain.Tests.Identity.RegisterUser
     {
       public Mock<IUserRepository> UserRepository { get; set; }
       public Mock<IConfirmationEmailSender> Emailer { get; set; }
+      public Mock<IPasswordHasher> Hasher { get; set; }
       public RegisterUserRequest Request { get; set; }
       public IRegisterUserHandler Handler { get; set; }
 
@@ -95,7 +96,13 @@ namespace Money.Domain.Tests.Identity.RegisterUser
       {
         UserRepository = new Mock<IUserRepository>();
         Emailer = new Mock<IConfirmationEmailSender>();
-        Handler = new RegisterUserHandler(UserRepository.Object, Emailer.Object);
+        Hasher = new Mock<IPasswordHasher>();
+        Hasher.Setup(x => x.Hash(It.IsAny<string>())).Returns("--hashed--");
+
+        Handler = new RegisterUserHandler(
+          UserRepository.Object, 
+          Emailer.Object,
+          Hasher.Object);
 
         Request = new RegisterUserRequest
         {

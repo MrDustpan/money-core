@@ -2,9 +2,10 @@ using System.Threading.Tasks;
 using Money.Domain.Identity;
 using Money.Domain.Identity.RegisterUser;
 using Money.Infrastructure.Configuration;
+using Money.Infrastructure.Email;
 using Money.Infrastructure.Resources;
 
-namespace Money.Infrastructure.Email
+namespace Money.Infrastructure.Identity
 {
   public class ConfirmationEmailSender : IConfirmationEmailSender
   {

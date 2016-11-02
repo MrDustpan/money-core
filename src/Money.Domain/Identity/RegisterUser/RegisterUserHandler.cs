@@ -8,11 +8,16 @@ namespace Money.Domain.Identity.RegisterUser
   {
     private readonly IUserRepository _userRepository;
     private readonly IConfirmationEmailSender _emailer;
+    private readonly IPasswordHasher _hasher;
 
-    public RegisterUserHandler(IUserRepository userRepository, IConfirmationEmailSender emailer)
+    public RegisterUserHandler(
+      IUserRepository userRepository, 
+      IConfirmationEmailSender emailer,
+      IPasswordHasher hasher)
     {
       _userRepository = userRepository;
       _emailer = emailer;
+      _hasher = hasher;
     }
 
     public async Task<RegisterUserResponse> HandleAsync(RegisterUserRequest request)
@@ -26,7 +31,7 @@ namespace Money.Domain.Identity.RegisterUser
       var user = new User
       {
         Email = request.Email, 
-        Password = request.Password,
+        Password = _hasher.Hash(request.Password),
         ConfirmationId = Guid.NewGuid().ToString(),
         Status = UserStatus.Pending
       };

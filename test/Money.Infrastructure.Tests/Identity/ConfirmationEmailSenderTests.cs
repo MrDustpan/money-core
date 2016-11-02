@@ -1,13 +1,14 @@
 using System.Threading.Tasks;
 using Money.Infrastructure.Configuration;
 using Money.Infrastructure.Email;
+using Money.Infrastructure.Identity;
 using Money.Infrastructure.Resources;
 using Money.Domain.Identity;
 using Money.Domain.Identity.RegisterUser;
 using Moq;
 using Xunit;
 
-namespace Money.Infrastructure.Tests.Email
+namespace Money.Infrastructure.Tests.Identity
 {
   public class ConfirmationEmailSenderTests
   {
