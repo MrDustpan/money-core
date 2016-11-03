@@ -7,6 +7,6 @@ namespace Money.Domain.Identity
     Task Add(User user);
     Task Update(User user);
     Task<User> GetUserByEmail(string email);
-    Task<User> GetUserByConfirmationId(string email);
+    Task<User> GetUserByConfirmationId(string confirmationId);
   }
 }
