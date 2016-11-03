@@ -1,12 +1,12 @@
-namespace Money.Boundary.Identity.RegisterUser
+namespace Money.Boundary.Identity.Register
 {
-  public class RegisterUserResponse
+  public class RegisterResponse
   {
-    public RegisterUserStatus Status { get; set; }
+    public RegisterStatus Status { get; set; }
     public int? UserId { get; set; }
   }
 
-  public enum RegisterUserStatus
+  public enum RegisterStatus
   {
     FailureEmailRequired,
     FailurePasswordRequirementsNotMet,

@@ -1,4 +1,4 @@
-using Money.Boundary.Identity.RegisterUser;
+using Money.Boundary.Identity.Register;
 using Xunit;
 using Money.Web.Features.Auth.ViewModels;
 
@@ -10,7 +10,7 @@ namespace Money.Web.Tests.Auth
     public void MissingEmailError()
     {
       var viewModel = new RegisterViewModel();
-      viewModel.LoadResult(RegisterUserStatus.FailureEmailRequired);
+      viewModel.LoadResult(RegisterStatus.FailureEmailRequired);
 
       Assert.Equal("Email address is required.", viewModel.ErrorMessage);
     }
@@ -19,7 +19,7 @@ namespace Money.Web.Tests.Auth
     public void EmailExistsError()
     {
       var viewModel = new RegisterViewModel();
-      viewModel.LoadResult(RegisterUserStatus.FailureEmailAlreadyExists);
+      viewModel.LoadResult(RegisterStatus.FailureEmailAlreadyExists);
 
       Assert.Equal("An account already exists for that email.", viewModel.ErrorMessage);
     }
@@ -28,7 +28,7 @@ namespace Money.Web.Tests.Auth
     public void PasswordRequirementsNotMetError()
     {
       var viewModel = new RegisterViewModel();
-      viewModel.LoadResult(RegisterUserStatus.FailurePasswordRequirementsNotMet);
+      viewModel.LoadResult(RegisterStatus.FailurePasswordRequirementsNotMet);
 
       Assert.Equal("Password must be at least 8 characters.", viewModel.ErrorMessage);
     }
@@ -37,7 +37,7 @@ namespace Money.Web.Tests.Auth
     public void PasswordsDoNotMatchError()
     {
       var viewModel = new RegisterViewModel();
-      viewModel.LoadResult(RegisterUserStatus.FailurePasswordAndConfirmDoNotMatch);
+      viewModel.LoadResult(RegisterStatus.FailurePasswordAndConfirmDoNotMatch);
 
       Assert.Equal("Password and Confirm Password do not match.", viewModel.ErrorMessage);
     }

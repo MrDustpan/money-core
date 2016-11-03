@@ -4,12 +4,12 @@ namespace Money.Infrastructure.Resources
 {
   public class ResourceGateway : IResourceGateway
   {
-    public Task<string> GetRegisterUserSubject()
+    public Task<string> GetRegisterSubject()
     {
       return Task.FromResult("Please confirm your email");
     }
 
-    public Task<string> GetRegisterUserBody()
+    public Task<string> GetRegisterBody()
     {
       return Task.FromResult("Click here to <a href=\"{0}\">confirm your account.</a>");
     }

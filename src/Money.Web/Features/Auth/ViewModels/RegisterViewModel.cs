@@ -1,4 +1,4 @@
-using Money.Boundary.Identity.RegisterUser;
+using Money.Boundary.Identity.Register;
 
 namespace Money.Web.Features.Auth.ViewModels
 {
@@ -11,23 +11,23 @@ namespace Money.Web.Features.Auth.ViewModels
 
     public RegisterViewModel() { }
 
-    public void LoadResult(RegisterUserStatus status)
+    public void LoadResult(RegisterStatus status)
     {
       switch (status)
       {
-        case RegisterUserStatus.FailureEmailRequired:
+        case RegisterStatus.FailureEmailRequired:
           ErrorMessage = "Email address is required.";
           break;
 
-        case RegisterUserStatus.FailureEmailAlreadyExists:
+        case RegisterStatus.FailureEmailAlreadyExists:
           ErrorMessage = "An account already exists for that email.";
           break;
 
-        case RegisterUserStatus.FailurePasswordRequirementsNotMet:
+        case RegisterStatus.FailurePasswordRequirementsNotMet:
           ErrorMessage = "Password must be at least 8 characters.";
           break;
 
-        case RegisterUserStatus.FailurePasswordAndConfirmDoNotMatch:
+        case RegisterStatus.FailurePasswordAndConfirmDoNotMatch:
           ErrorMessage = "Password and Confirm Password do not match.";
           break;
       }

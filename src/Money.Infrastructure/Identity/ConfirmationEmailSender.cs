@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using Money.Domain.Identity;
-using Money.Domain.Identity.RegisterUser;
+using Money.Domain.Identity.Register;
 using Money.Infrastructure.Configuration;
 using Money.Infrastructure.Email;
 using Money.Infrastructure.Resources;
@@ -25,8 +25,8 @@ namespace Money.Infrastructure.Identity
       var message = new EmailMessage
       { 
         To = user.Email,
-        From = await _config.GetRegisterUserEmailFrom(),
-        Subject = await _resources.GetRegisterUserSubject(),
+        From = await _config.GetRegisterEmailFrom(),
+        Subject = await _resources.GetRegisterSubject(),
         Body = await GetBody(user.ConfirmationId)
       };
 
@@ -39,7 +39,7 @@ namespace Money.Infrastructure.Identity
 
       var fullUrl = string.IsNullOrWhiteSpace(url) ? "" : string.Format(url, confirmationId);
 
-      var body = await _resources.GetRegisterUserBody();
+      var body = await _resources.GetRegisterBody();
 
       return string.IsNullOrWhiteSpace(body) ? "" : string.Format(body, fullUrl);
     }

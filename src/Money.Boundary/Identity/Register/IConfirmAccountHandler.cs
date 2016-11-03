@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Money.Boundary.Identity.RegisterUser
+namespace Money.Boundary.Identity.Register
 {
   public interface IConfirmAccountHandler
   {

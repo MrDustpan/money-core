@@ -1,4 +1,4 @@
-namespace Money.Boundary.Identity.RegisterUser
+namespace Money.Boundary.Identity.Register
 {
   public class ConfirmAccountResponse
   {

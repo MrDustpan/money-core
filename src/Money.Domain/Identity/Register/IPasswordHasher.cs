@@ -1,4 +1,4 @@
-namespace Money.Domain.Identity.RegisterUser
+namespace Money.Domain.Identity.Register
 {
   public interface IPasswordHasher
   {

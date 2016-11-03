@@ -1,16 +1,16 @@
 using System;
 using System.Threading.Tasks;
-using Money.Boundary.Identity.RegisterUser;
+using Money.Boundary.Identity.Register;
 
-namespace Money.Domain.Identity.RegisterUser
+namespace Money.Domain.Identity.Register
 {
-  public class RegisterUserHandler : IRegisterUserHandler
+  public class RegisterHandler : IRegisterHandler
   {
     private readonly IUserRepository _userRepository;
     private readonly IConfirmationEmailSender _emailer;
     private readonly IPasswordHasher _hasher;
 
-    public RegisterUserHandler(
+    public RegisterHandler(
       IUserRepository userRepository, 
       IConfirmationEmailSender emailer,
       IPasswordHasher hasher)
@@ -20,10 +20,10 @@ namespace Money.Domain.Identity.RegisterUser
       _hasher = hasher;
     }
 
-    public async Task<RegisterUserResponse> Handle(RegisterUserRequest request)
+    public async Task<RegisterResponse> Handle(RegisterRequest request)
     {
       var response = await ValidateRequest(request);
-      if (response.Status != RegisterUserStatus.Success)
+      if (response.Status != RegisterStatus.Success)
       {
         return response;
       }
@@ -44,35 +44,35 @@ namespace Money.Domain.Identity.RegisterUser
       return response;
     }
 
-    private async Task<RegisterUserResponse> ValidateRequest(RegisterUserRequest request)
+    private async Task<RegisterResponse> ValidateRequest(RegisterRequest request)
     {
       if (string.IsNullOrWhiteSpace(request.Email))
       {
-        return Response(RegisterUserStatus.FailureEmailRequired);
+        return Response(RegisterStatus.FailureEmailRequired);
       }
 
       if (string.IsNullOrEmpty(request.Password) || request.Password.Length < 8)
       {
-        return Response(RegisterUserStatus.FailurePasswordRequirementsNotMet);
+        return Response(RegisterStatus.FailurePasswordRequirementsNotMet);
       }
 
       if (request.Password != request.ConfirmPassword)
       {
-        return Response(RegisterUserStatus.FailurePasswordAndConfirmDoNotMatch);
+        return Response(RegisterStatus.FailurePasswordAndConfirmDoNotMatch);
       }
 
       var existing = await _userRepository.GetUserByEmail(request.Email);
       if (existing != null)
       {
-        return Response(RegisterUserStatus.FailureEmailAlreadyExists);
+        return Response(RegisterStatus.FailureEmailAlreadyExists);
       }
 
-      return Response(RegisterUserStatus.Success);
+      return Response(RegisterStatus.Success);
     }
 
-    private static RegisterUserResponse Response(RegisterUserStatus status)
+    private static RegisterResponse Response(RegisterStatus status)
     {
-      return new RegisterUserResponse { Status = status };
+      return new RegisterResponse { Status = status };
     }
   }
 }

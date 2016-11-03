@@ -1,6 +1,6 @@
-namespace Money.Boundary.Identity.RegisterUser
+namespace Money.Boundary.Identity.Register
 {
-  public class RegisterUserRequest
+  public class RegisterRequest
   {
     public string Email { get; set; }
     public string Password { get; set; }

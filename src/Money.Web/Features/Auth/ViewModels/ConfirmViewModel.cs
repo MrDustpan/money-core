@@ -1,4 +1,4 @@
-using Money.Boundary.Identity.RegisterUser;
+using Money.Boundary.Identity.Register;
 
 namespace Money.Web.Features.Auth.ViewModels
 {

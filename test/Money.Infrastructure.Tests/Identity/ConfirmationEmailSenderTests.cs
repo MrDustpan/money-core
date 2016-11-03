@@ -4,7 +4,7 @@ using Money.Infrastructure.Email;
 using Money.Infrastructure.Identity;
 using Money.Infrastructure.Resources;
 using Money.Domain.Identity;
-using Money.Domain.Identity.RegisterUser;
+using Money.Domain.Identity.Register;
 using Moq;
 using Xunit;
 
@@ -28,7 +28,7 @@ namespace Money.Infrastructure.Tests.Identity
     public async Task FromAddressIsSetFromConfig()
     {
       var d = new Dependencies();
-      d.Config.Setup(x => x.GetRegisterUserEmailFrom()).Returns(Task.FromResult("x@y.z"));
+      d.Config.Setup(x => x.GetRegisterEmailFrom()).Returns(Task.FromResult("x@y.z"));
 
       var emailer = GetConfirmationEmailSender(d);
 
@@ -41,7 +41,7 @@ namespace Money.Infrastructure.Tests.Identity
     public async Task SubjectIsSetFromResource()
     {
       var d = new Dependencies();
-      d.Resources.Setup(x => x.GetRegisterUserSubject()).Returns(Task.FromResult("Confirm your account"));
+      d.Resources.Setup(x => x.GetRegisterSubject()).Returns(Task.FromResult("Confirm your account"));
 
       var emailer = GetConfirmationEmailSender(d);
 
@@ -60,7 +60,7 @@ namespace Money.Infrastructure.Tests.Identity
       d.User.ConfirmationId = "abc123";
 
       d.Resources
-        .Setup(x => x.GetRegisterUserBody())
+        .Setup(x => x.GetRegisterBody())
         .Returns(Task.FromResult("Click here to <a href=\"{0}\">confirm your account.</a>"));
 
       const string expected = "Click here to <a href=\"confirm?id=abc123\">confirm your account.</a>";

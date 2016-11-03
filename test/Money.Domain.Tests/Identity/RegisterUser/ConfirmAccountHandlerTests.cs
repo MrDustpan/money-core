@@ -1,11 +1,11 @@
 using System.Threading.Tasks;
-using Money.Boundary.Identity.RegisterUser;
+using Money.Boundary.Identity.Register;
 using Money.Domain.Identity;
-using Money.Domain.Identity.RegisterUser;
+using Money.Domain.Identity.Register;
 using Moq;
 using Xunit;
 
-namespace Money.Domain.Tests.Identity.RegisterUser
+namespace Money.Domain.Tests.Identity.Register
 {
   public class ConfirmAccountHandlerTests
   {

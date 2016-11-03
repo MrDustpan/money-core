@@ -9,10 +9,10 @@ Money.Boundary
 			FailedAuthenticationAttemptEvent.cs
 			IAuthenticateHandler.cs
 			UserAuthenticatedEvent.cs
-		RegisterUser
-			IRegisterUserHandler.cs
-			RegisterUserRequest.cs
-			RegisterUserResponse.cs
+		Register
+			IRegisterHandler.cs
+			RegisterRequest.cs
+			RegisterResponse.cs
 			UserRegisteredEvent.cs
 	Common
 		Configuration
@@ -36,9 +36,9 @@ Money.Domain
 		IUserRepository.cs
 		Authenticate
 			AuthenticateHandler.cs
-		RegisterUser
+		Register
 			ConfirmationEmailSender.cs
-			RegisterUserHandler.cs
+			RegisterHandler.cs
 
 Money.DataAccess
 	Identity

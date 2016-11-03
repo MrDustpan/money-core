@@ -4,7 +4,7 @@ namespace Money.Infrastructure.Resources
 {
   public interface IResourceGateway
   {
-    Task<string> GetRegisterUserSubject();
-    Task<string> GetRegisterUserBody();
+    Task<string> GetRegisterSubject();
+    Task<string> GetRegisterBody();
   }
 }

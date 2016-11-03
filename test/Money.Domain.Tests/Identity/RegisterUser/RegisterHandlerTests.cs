@@ -1,13 +1,13 @@
 using System.Threading.Tasks;
-using Money.Boundary.Identity.RegisterUser;
+using Money.Boundary.Identity.Register;
 using Money.Domain.Identity;
-using Money.Domain.Identity.RegisterUser;
+using Money.Domain.Identity.Register;
 using Moq;
 using Xunit;
 
-namespace Money.Domain.Tests.Identity.RegisterUser
+namespace Money.Domain.Tests.Identity.Register
 {
-  public class RegisterUserHandlerTests
+  public class RegisterHandlerTests
   {
     [Fact]
     public async Task RegistrationFailsWhenEmailIsMissing()
@@ -17,7 +17,7 @@ namespace Money.Domain.Tests.Identity.RegisterUser
 
       var response = await d.Handler.Handle(d.Request);
 
-      Assert.Equal(RegisterUserStatus.FailureEmailRequired, response.Status);
+      Assert.Equal(RegisterStatus.FailureEmailRequired, response.Status);
     }
 
     [Fact]
@@ -28,7 +28,7 @@ namespace Money.Domain.Tests.Identity.RegisterUser
 
       var response = await d.Handler.Handle(d.Request);
 
-      Assert.Equal(RegisterUserStatus.FailurePasswordRequirementsNotMet, response.Status);
+      Assert.Equal(RegisterStatus.FailurePasswordRequirementsNotMet, response.Status);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ namespace Money.Domain.Tests.Identity.RegisterUser
 
       var response = await d.Handler.Handle(d.Request);
 
-      Assert.Equal(RegisterUserStatus.FailurePasswordAndConfirmDoNotMatch, response.Status);
+      Assert.Equal(RegisterStatus.FailurePasswordAndConfirmDoNotMatch, response.Status);
     }
 
     [Fact]
@@ -50,7 +50,7 @@ namespace Money.Domain.Tests.Identity.RegisterUser
 
       var response = await d.Handler.Handle(d.Request);
 
-      Assert.Equal(RegisterUserStatus.FailureEmailAlreadyExists, response.Status);
+      Assert.Equal(RegisterStatus.FailureEmailAlreadyExists, response.Status);
     }
 
     [Fact]
@@ -64,7 +64,7 @@ namespace Money.Domain.Tests.Identity.RegisterUser
 
       var response = await d.Handler.Handle(d.Request);
 
-      Assert.Equal(RegisterUserStatus.Success, response.Status);
+      Assert.Equal(RegisterStatus.Success, response.Status);
       Assert.Equal(99, response.UserId.GetValueOrDefault());
 
       d.UserRepository.Verify(x => x.Add(It.Is<User>(u => 
@@ -89,8 +89,8 @@ namespace Money.Domain.Tests.Identity.RegisterUser
       public Mock<IUserRepository> UserRepository { get; set; }
       public Mock<IConfirmationEmailSender> Emailer { get; set; }
       public Mock<IPasswordHasher> Hasher { get; set; }
-      public RegisterUserRequest Request { get; set; }
-      public IRegisterUserHandler Handler { get; set; }
+      public RegisterRequest Request { get; set; }
+      public IRegisterHandler Handler { get; set; }
 
       public Dependencies()
       {
@@ -99,12 +99,12 @@ namespace Money.Domain.Tests.Identity.RegisterUser
         Hasher = new Mock<IPasswordHasher>();
         Hasher.Setup(x => x.Hash(It.IsAny<string>())).Returns("--hashed--");
 
-        Handler = new RegisterUserHandler(
+        Handler = new RegisterHandler(
           UserRepository.Object, 
           Emailer.Object,
           Hasher.Object);
 
-        Request = new RegisterUserRequest
+        Request = new RegisterRequest
         {
           Email = "a@b.c", 
           Password = "P@ssword!!",

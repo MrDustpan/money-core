@@ -1,4 +1,4 @@
-using Money.Domain.Identity.RegisterUser;
+using Money.Domain.Identity.Register;
 
 namespace Money.Infrastructure.Identity
 {

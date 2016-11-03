@@ -17,9 +17,9 @@ namespace Money.Infrastructure.Configuration
       _config = builder.Build();
     }
 
-    public Task<string> GetRegisterUserEmailFrom()
+    public Task<string> GetRegisterEmailFrom()
     {
-      return Task.FromResult(_config["RegisterUserEmailFrom"]);
+      return Task.FromResult(_config["RegisterEmailFrom"]);
     }
 
     public Task<string> GetAccountConfirmationUrl()
