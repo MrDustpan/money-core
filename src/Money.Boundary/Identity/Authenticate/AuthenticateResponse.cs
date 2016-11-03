@@ -7,6 +7,7 @@ namespace Money.Boundary.Identity.Authenticate
 
   public enum AuthenticateStatus
   {
-    UserNotFound
+    UserNotFound,
+    InvalidPassword
   }
 }

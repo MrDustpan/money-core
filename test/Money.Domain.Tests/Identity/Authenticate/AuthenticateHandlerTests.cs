@@ -20,17 +20,33 @@ namespace Money.Domain.Tests.Identity.Authenticate
       Assert.Equal(AuthenticateStatus.UserNotFound, response.Status);
     }
 
+    [Fact]
+    public async Task AuthenticateFailsWhenPasswordIsInvalid()
+    {
+      var d = new Dependencies();
+      d.PasswordValidator.Setup(x => x.IsValid(d.Request.Password, d.User.Password)).Returns(false);
+
+      var response = await d.Handler.Handle(d.Request);
+
+      Assert.Equal(AuthenticateStatus.InvalidPassword, response.Status);
+    }
+
     private class Dependencies
     {
       public AuthenticateRequest Request { get; set; }
+      public User User { get; set; }
       public Mock<IUserRepository> UserRepository { get; set; }
+      public Mock<IPasswordValidator> PasswordValidator { get; set; }
       public IAuthenticateHandler Handler { get; set; }
 
       public Dependencies()
       {
-        Request = new AuthenticateRequest { Email = "a@b.c" };
+        Request = new AuthenticateRequest { Email = "a@b.c", Password = "password" };
+        User = new User { Id = 1, Email = "a@b.c", Password = "--hashed--" };
         UserRepository = new Mock<IUserRepository>();
-        Handler = new AuthenticateHandler(UserRepository.Object);
+        UserRepository.Setup(x => x.GetUserByEmail("a@b.c")).Returns(Task.FromResult(User));
+        PasswordValidator = new Mock<IPasswordValidator>();
+        Handler = new AuthenticateHandler(UserRepository.Object, PasswordValidator.Object);
       }
     }
   }
