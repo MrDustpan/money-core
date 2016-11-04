@@ -4,5 +4,6 @@ CREATE TABLE [User]
   Email varchar(100) NOT NULL,
   Password varchar(200) NOT NULL,
   ConfirmationId varchar(50) NULL,
-  Status tinyint NOT NULL
+  Status tinyint NOT NULL,
+  FailedAttempts tinyint NOT NULL
 );
