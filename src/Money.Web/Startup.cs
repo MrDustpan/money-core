@@ -4,14 +4,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Money.Domain.Identity;
-using Money.Infrastructure.Email;
 using Scrutor;
 using Money.Web.Features.Home;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
-using System.Reflection;
+using Money.Core.Identity.Domain;
 
 namespace Web
 {
@@ -60,8 +58,7 @@ namespace Web
       services.Scan(scan => scan
         .FromAssembliesOf(
           typeof(HomeController),  // Money.Web
-          typeof(User),            // Money.Domain
-          typeof(SendGridEmailer)) // Money.Infrastructure
+          typeof(User))            // Money.Core
         .AddClasses()
         .AsImplementedInterfaces());
     }

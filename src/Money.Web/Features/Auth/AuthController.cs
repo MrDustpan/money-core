@@ -1,22 +1,26 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Money.Boundary.Identity.RegisterUser;
+using Money.Core.Identity.Boundary.Authenticate;
+using Money.Core.Identity.Boundary.Register;
 using Money.Web.Features.Auth.ViewModels;
 
 namespace Money.Web.Features.Auth
 {
   public class AuthController : Controller
   {
-    private readonly IRegisterUserHandler _registerUserHandler;
+    private readonly IRegisterHandler _registerHandler;
     private readonly IConfirmAccountHandler _confirmAccountHandler;
+    private readonly IAuthenticateHandler _authenticateHandler;
 
     public AuthController(
-      IRegisterUserHandler registerUserHandler,
-      IConfirmAccountHandler confirmAccountHandler)
+      IRegisterHandler registerHandler,
+      IConfirmAccountHandler confirmAccountHandler,
+      IAuthenticateHandler authenticateHandler)
     {
-      _registerUserHandler = registerUserHandler;
+      _registerHandler = registerHandler;
       _confirmAccountHandler = confirmAccountHandler;
+      _authenticateHandler = authenticateHandler;
     }
 
     [AllowAnonymous]
@@ -28,16 +32,16 @@ namespace Money.Web.Features.Auth
     [HttpPost, AllowAnonymous]
     public async Task<IActionResult> Register(RegisterViewModel viewModel)
     {
-      var request = new RegisterUserRequest
+      var request = new RegisterRequest
       {
         Email = viewModel.Email, 
         Password = viewModel.Password,
         ConfirmPassword = viewModel.ConfirmPassword
       };
 
-      var response = await _registerUserHandler.Handle(request);
+      var response = await _registerHandler.Handle(request);
 
-      if (response.Status == RegisterUserStatus.Success)
+      if (response.Status == RegisterStatus.Success)
       {
         return RedirectToAction("Confirm", "Auth");
       }
@@ -50,6 +54,26 @@ namespace Money.Web.Features.Auth
     public IActionResult Login()
     {
       return View();
+    }
+
+    [AllowAnonymous, HttpPost]
+    public async Task<IActionResult> Login(LoginViewModel viewModel)
+    {
+      var request = new AuthenticateRequest
+      {
+        Email = viewModel.Email, 
+        Password = viewModel.Password
+      };
+
+       var response = await _authenticateHandler.Handle(request);
+
+      if (response.Status == AuthenticateStatus.Success)
+      {
+        return RedirectToAction("Index", "Home");
+      }
+
+      viewModel.LoadResult(response.Status);
+      return View(viewModel);
     }
 
     [AllowAnonymous]

@@ -1,56 +1,25 @@
-Money.Web
-
-Money.Boundary
-	Identity
-		Authenticate
-			AccountLockedEvent.cs
-			AuthenticateRequest.cs
-			AuthenticateResponse.cs
-			FailedAuthenticationAttemptEvent.cs
-			IAuthenticateHandler.cs
-			UserAuthenticatedEvent.cs
-		Register
-			IRegisterHandler.cs
-			RegisterRequest.cs
-			RegisterResponse.cs
-			UserRegisteredEvent.cs
+Money.Core
 	Common
 		Configuration
-			IConfigurationGateway.cs
+		DataAccess
 		Email
-			EmailMessage.cs
-			IEmailer.cs
-		Logging
-			ILogger.cs
-		Resources
-			IResourceGateway.cs
-		ServiceBus
-			IEvent.cs
-			IServiceBus.cs
-
-
-Money.Domain
 	Identity
-		User.cs
-		IUserGateway.cs
-		IUserRepository.cs
-		Authenticate
-			AuthenticateHandler.cs
-		Register
-			ConfirmationEmailSender.cs
-			RegisterHandler.cs
-
-Money.DataAccess
-	Identity
-		UserGateway.cs
-		UserRepository.cs
-	Common
-		SqlConnectionProvider.cs
-
-Money.Infrastructure
-	ConfigurationGateway.cs
-	Emailer.cs
-  Logger.cs
-	ResourceGateway.cs
-
-Money.ServiceBus
+		Boundary
+			Register
+				IRegisterHandler.cs
+				RegisterRequest.cs
+				RegisterResponse.cs
+		Domain
+			Authenticate
+			ForgotPassword
+			Register
+				IConfirmationSender.cs
+				IPasswordHasher.cs
+				RegisterHandler.cs
+			ResetPassword
+			User.cs
+			IUserRepository.cs
+		Infrastructure
+			BCryptPasswordHasher.cs
+			EmailConfirmationSender.cs
+			UserRepository
