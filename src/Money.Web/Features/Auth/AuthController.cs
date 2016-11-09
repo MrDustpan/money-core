@@ -1,4 +1,6 @@
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Money.Core.Identity.Boundary.Authenticate;
@@ -65,10 +67,19 @@ namespace Money.Web.Features.Auth
         Password = viewModel.Password
       };
 
-       var response = await _authenticateHandler.Handle(request);
+      var response = await _authenticateHandler.Handle(request);
 
       if (response.Status == AuthenticateStatus.Success)
       {
+        var identity = new ClaimsIdentity(
+          new[] { new Claim(ClaimTypes.NameIdentifier, response.UserId.ToString()) }, 
+          CookieAuthenticationDefaults.AuthenticationScheme);
+          
+        var user = new ClaimsPrincipal(identity);
+        
+        await HttpContext.Authentication.SignInAsync(
+          CookieAuthenticationDefaults.AuthenticationScheme, user);
+        
         return RedirectToAction("Index", "Home");
       }
 

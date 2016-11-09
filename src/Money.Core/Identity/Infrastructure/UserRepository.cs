@@ -19,8 +19,8 @@ namespace Money.Core.Identity.Infrastructure
     public async Task Add(User user)
     {
       const string sql = 
-        @"insert into [User] ([Email], [Password], [ConfirmationId], [Status]) 
-        values (@email, @password, @confirmationId, @status)
+        @"insert into [User] ([Email], [Password], [ConfirmationId], [Status], [FailedAttempts]) 
+        values (@email, @password, @confirmationId, @status, @failedAttempts)
         
         select cast(SCOPE_IDENTITY() as int)";
       

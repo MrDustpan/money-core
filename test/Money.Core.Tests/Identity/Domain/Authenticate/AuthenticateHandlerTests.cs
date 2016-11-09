@@ -79,6 +79,7 @@ namespace Money.Core.Tests.Identity.Authenticate
       var response = await d.Handler.Handle(d.Request);
 
       Assert.Equal(AuthenticateStatus.Success, response.Status);
+      Assert.Equal(d.User.Id, response.UserId);
     }
 
     [Fact]

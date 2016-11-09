@@ -80,9 +80,8 @@ namespace Web
 
       app.UseStaticFiles();
 
-      app.UseCookieAuthentication(new CookieAuthenticationOptions()
+      app.UseCookieAuthentication(new CookieAuthenticationOptions
       {
-          AuthenticationScheme = "MyCookieMiddlewareInstance",
           LoginPath = new PathString("/auth/login"),
           AccessDeniedPath = new PathString("/auth/login"),
           AutomaticAuthenticate = true,

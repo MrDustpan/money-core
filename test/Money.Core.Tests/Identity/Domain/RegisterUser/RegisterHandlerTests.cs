@@ -71,7 +71,8 @@ namespace Money.Domain.Tests.Identity.Register
         u.Email == "a@b.c" &&
         u.Password == "--hashed--" &&
         u.Status == UserStatus.Pending &&
-        string.IsNullOrWhiteSpace(u.ConfirmationId) == false)));
+        string.IsNullOrWhiteSpace(u.ConfirmationId) == false &&
+        u.FailedAttempts == 0)));
     }
 
     [Fact]

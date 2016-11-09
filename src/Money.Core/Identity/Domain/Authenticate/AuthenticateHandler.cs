@@ -63,7 +63,11 @@ namespace Money.Core.Identity.Domain.Authenticate
     {
       await ResetFailedAttempts(user);
 
-      return new AuthenticateResponse { Status = AuthenticateStatus.Success };
+      return new AuthenticateResponse
+      {
+        Status = AuthenticateStatus.Success,
+        UserId = user.Id
+      };
     }
 
     private async Task ResetFailedAttempts(User user)
