@@ -36,8 +36,13 @@
             <li><a asp-area="" asp-controller="calcs" asp-action="index">Calculators</a></li>
           </ul>
           <ul class="nav navbar-nav pull-right">
+            @if (User.Identity.IsAuthenticated) {
+              <li><a asp-area="" asp-controller="auth" asp-action="logout">Sign Out</a></li>
+            }
+            else {
             <li><a asp-area="" asp-controller="auth" asp-action="login">Sign In</a></li>
             <li><a asp-area="" asp-controller="auth" asp-action="register">Register</a></li>
+            }
           </ul>
         </div>
       </div>

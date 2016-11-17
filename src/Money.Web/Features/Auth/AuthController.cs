@@ -87,6 +87,12 @@ namespace Money.Web.Features.Auth
       return View(viewModel);
     }
 
+    public async Task<IActionResult> Logout()
+    {
+      await HttpContext.Authentication.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+      return RedirectToAction("Login");
+    }
+
     [AllowAnonymous]
     public async Task<IActionResult> Confirm(string id)
     {
