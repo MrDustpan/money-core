@@ -3,36 +3,44 @@
   ViewData["Title"] = "Register";
 }
 <div class="row">
-  <div class="col-md-6">
-    <h2>Register</h2>
+  <div class="col-sm-3 col-md-2 sidebar">
   </div>
-</div>
-<div class="row">
-  <div class="col-md-6">
+  <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="page-header">Register</h1>
     @if (Model != null && !string.IsNullOrWhiteSpace(Model.ErrorMessage))
     {
-    <div class="panel panel-danger">
-      <div class="panel-body">
-        <span class="text-danger">@Model.ErrorMessage</span>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="panel panel-danger">
+            <div class="panel-body">
+              <span class="text-danger">@Model.ErrorMessage</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+    <div class="row">
+      <div class="col-md-3">
+        <form method="POST">
+          <div class="form-group">
+            <input type="text" class="form-control" asp-for="Email" placeholder="Email">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password">
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Register</button>
+          </div>
+        </form>
       </div>
     </div>
-    }
-    <form method="POST">
-      <div class="form-group">
-        <input type="text" class="form-control" asp-for="Email" placeholder="Email">
-      </div>
-      <div class="form-group">
-        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
-      </div>
-      <div class="form-group">
-        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password">
-      </div>
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary">Register</button>
-      </div>
-      <div class="form-group">
+    <div class="row">
+      <div class="col-md-5">
         Already have an account? <a asp-controller="auth" asp-action="login">Sign in here</a>.
       </div>
-    </form>
+    </div>
   </div>
 </div>

@@ -1,16 +1,19 @@
 @{
   ViewData["Title"] = "Confirm Account";
 }
+
 <div class="row">
-  <div class="col-md-6">
-    <h2>Confirm Account</h2>
+  <div class="col-sm-3 col-md-2 sidebar">
   </div>
-</div>
-<div class="row">
-  <div class="col-md-6">
-    <div class="panel panel-@Model.Class">
-      <div class="panel-body">
-        <span class="text-@Model.Class">@Model.Message</span>
+  <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="page-header">Confirm Account</h1>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="panel panel-@Model.Class">
+          <div class="panel-body">
+            <span class="text-@Model.Class">@Model.Message</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

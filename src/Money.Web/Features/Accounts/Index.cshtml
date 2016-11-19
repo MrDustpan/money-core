@@ -4,33 +4,23 @@
 }
 
 <div class="row">
-  <div class="col-md-3">
-    <h2>Accounts</h2>
+  <div class="col-sm-3 col-md-2 sidebar">
+    <ul class="nav nav-sidebar">
+      @foreach (var account in Model.Accounts)
+      {
+        <li><a href="#">@account.Name</a></li>
+      }
+    </ul>
+    <ul class="nav nav-sidebar">
+      <li>
+        <a asp-controller="accounts" asp-action="add">
+          <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+          Add Account
+        </a>
+      </li>
+    </ul>
   </div>
-</div>
-<div class="row">
-  <div class="col-md-3">
-    <a asp-controller="accounts" asp-action="add">Add Account</a>
-  </div>
-</div>
-<div class="row">
-  <div class="col-md-6">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Balance</th>
-        </tr>
-      </thead>
-      <tbody>
-        @foreach (var account in Model.Accounts)
-        {
-          <tr>
-            <td>@account.Name</td>
-            <td>@account.Balance</td>
-          </tr>
-        }
-      </tbody>
-    </table>
+  <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="page-header">Accounts</h1>
   </div>
 </div>
