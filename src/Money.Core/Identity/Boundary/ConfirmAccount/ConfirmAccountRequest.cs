@@ -1,4 +1,4 @@
-namespace Money.Core.Identity.Boundary.Register
+namespace Money.Core.Identity.Boundary.ConfirmAccount
 {
   public class ConfirmAccountRequest
   {

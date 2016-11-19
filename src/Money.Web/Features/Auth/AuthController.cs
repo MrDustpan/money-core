@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Money.Core.Identity.Boundary.Authenticate;
+using Money.Core.Identity.Boundary.ConfirmAccount;
 using Money.Core.Identity.Boundary.Register;
 using Money.Web.Features.Auth.ViewModels;
 

@@ -23,3 +23,19 @@ Money.Core
 			BCryptPasswordHasher.cs
 			EmailConfirmationSender.cs
 			UserRepository
+
+	Accounts
+		Boundary
+			CreateAccount
+				AccountCreatedEvent.cs
+				CreateAccountHandler.cs
+				CreateAccountRequest.cs
+				CreateAccountResponse.cs
+			DeleteAccount
+			DeleteTransaction
+			GetAccountsIndex
+			GetAccountTransactions
+			RecordTransaction
+			UpdateTransaction
+		Domain
+		Infrastructure

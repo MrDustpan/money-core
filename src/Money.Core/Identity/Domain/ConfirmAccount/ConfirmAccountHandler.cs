@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
-using Money.Core.Identity.Boundary.Register;
+using Money.Core.Identity.Boundary.ConfirmAccount;
 
-namespace Money.Core.Identity.Domain.Register
+namespace Money.Core.Identity.Domain.ConfirmAccount
 {
   public class ConfirmAccountHandler : IConfirmAccountHandler
   {

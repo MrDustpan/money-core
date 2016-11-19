@@ -1,0 +1,28 @@
+@model AddAccountViewModel
+@{
+  ViewData["Title"] = "Add Account";
+}
+
+<div class="row">
+  <div class="col-md-3">
+    <h2>Add Account</h2>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <form method="POST">
+      <div class="form-group">
+        <input type="text" class="form-control" id="name" name="name" placeholder="Account Name">
+      </div>
+      <div class="form-group">
+        <div class="input-group col-md-6">
+          <div class="input-group-addon">$</div>
+          <input type="text" class="form-control" id="currentBalance" name="currentBalance" placeholder="Current Balance">
+        </div>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Add Account</button>
+      </div>
+    </form>
+  </div>
+</div>
