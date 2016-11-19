@@ -1,22 +1,28 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Money.Core.Accounts.Boundary.CreateAccount;
+using Money.Core.Accounts.Boundary.GetAccountIndex;
 using Money.Web.Features.Accounts.ViewModels;
 
 namespace Money.Web.Features.Accounts
 {
   public class AccountsController : Controller
   {
+    private readonly IGetAccountIndexHandler _getAccountIndexHandler;
     private readonly ICreateAccountHandler _createAccountHandler;
 
-    public AccountsController(ICreateAccountHandler createAccountHandler)
+    public AccountsController(IGetAccountIndexHandler getAccountIndexHandler, ICreateAccountHandler createAccountHandler)
     {
+      _getAccountIndexHandler = getAccountIndexHandler;
       _createAccountHandler = createAccountHandler;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-      return View();
+      var accounts = await _getAccountIndexHandler.Handle(new GetAccountIndexRequest());
+      var viewModel = new AccountIndexViewModel(accounts);
+
+      return View(viewModel);
     }
 
     public IActionResult Add()
