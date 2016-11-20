@@ -1,4 +1,4 @@
-using Money.Core.Common.Email;
+using Money.Core.Common.Infrastructure.Email;
 using Xunit;
 
 namespace Money.Core.Tests.Common.Infrastructure.Email

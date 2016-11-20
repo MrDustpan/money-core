@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Money.Core.Accounts.Boundary;
+using Money.Core.Accounts.Boundary.GetAccountIndex;
 
 namespace Money.Web.Features.Accounts.ViewModels
 {

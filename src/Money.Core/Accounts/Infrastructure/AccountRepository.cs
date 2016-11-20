@@ -2,7 +2,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Money.Core.Accounts.Domain;
-using Money.Core.Common.DataAccess;
+using Money.Core.Common.Infrastructure.DataAccess;
 
 namespace Money.Core.Accounts.Infrastructure
 {

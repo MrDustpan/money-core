@@ -1,4 +1,5 @@
-using Money.Core.Identity.Domain;
+using Money.Core.Identity.Domain.Authenticate;
+using Money.Core.Identity.Domain.Register;
 
 namespace Money.Core.Identity.Infrastructure
 {

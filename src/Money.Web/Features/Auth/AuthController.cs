@@ -3,22 +3,27 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Money.Core.Identity.Boundary;
+using Money.Core.Identity.Boundary.Authenticate;
+using Money.Core.Identity.Boundary.ConfirmAccount;
+using Money.Core.Identity.Boundary.Register;
 using Money.Web.Features.Auth.ViewModels;
 
 namespace Money.Web.Features.Auth
 {
   public class AuthController : Controller
   {
-    private readonly IRegister _register;
-    private readonly IConfirmAccount _confirmAccount;
-    private readonly IAuthenticate _authenticate;
+    private readonly IRegisterHandler _registerHandler;
+    private readonly IConfirmAccountHandler _confirmAccountHandler;
+    private readonly IAuthenticateHandler _authenticateHandler;
 
-    public AuthController(IRegister register, IConfirmAccount confirmAccount, IAuthenticate authenticate)
+    public AuthController(
+      IRegisterHandler registerHandler,
+      IConfirmAccountHandler confirmAccountHandler,
+      IAuthenticateHandler authenticateHandler)
     {
-      _register = register;
-      _confirmAccount = confirmAccount;
-      _authenticate = authenticate;
+      _registerHandler = registerHandler;
+      _confirmAccountHandler = confirmAccountHandler;
+      _authenticateHandler = authenticateHandler;
     }
 
     [AllowAnonymous]
@@ -37,7 +42,7 @@ namespace Money.Web.Features.Auth
         ConfirmPassword = viewModel.ConfirmPassword
       };
 
-      var response = await _register.Execute(request);
+      var response = await _registerHandler.Handle(request);
 
       if (response.Status == RegisterStatus.Success)
       {
@@ -63,7 +68,7 @@ namespace Money.Web.Features.Auth
         Password = viewModel.Password
       };
 
-      var response = await _authenticate.Execute(request);
+      var response = await _authenticateHandler.Handle(request);
 
       if (response.Status == AuthenticateStatus.Success)
       {
@@ -98,7 +103,7 @@ namespace Money.Web.Features.Auth
       }
 
       var request = new ConfirmAccountRequest { Id = id };
-      var response = await _confirmAccount.Execute(request);
+      var response = await _confirmAccountHandler.Handle(request);
       
       return View(new ConfirmViewModel(response.Status));
     }
