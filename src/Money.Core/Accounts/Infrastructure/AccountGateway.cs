@@ -18,13 +18,13 @@ namespace Money.Core.Accounts.Infrastructure
 
     public async Task<GetAccountIndexResponse> GetAccountIndex(GetAccountIndexRequest request)
     {
-      const string sql = "select [Id], [Name], [Balance] from [Account]";
+      const string sql = "select [Id], [Name], [Balance] from [Account] where [UserId] = @userId";
       
       using (var conn = await _db.Open())
       {
         return new GetAccountIndexResponse
         {
-          Accounts = (await conn.QueryAsync<AccountIndexItem>(sql)).OrderBy(x => x.Name).ToList()
+          Accounts = (await conn.QueryAsync<AccountIndexItem>(sql, request)).OrderBy(x => x.Name).ToList()
         };
       }
     }

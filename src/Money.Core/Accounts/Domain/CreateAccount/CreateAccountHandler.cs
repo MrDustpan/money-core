@@ -16,6 +16,7 @@ namespace Money.Core.Accounts.Domain.CreateAccount
     {
       var account = new Account
       {
+        UserId = request.UserId,
         Name = request.Name,
         Balance = request.CurrentBalance
       };

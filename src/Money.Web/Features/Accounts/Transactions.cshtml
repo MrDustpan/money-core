@@ -1,0 +1,30 @@
+@model AccountTransactionsViewModel
+@{
+  ViewData["Title"] = "Accounts";
+}
+
+<div class="row">
+  <div class="col-sm-3 col-md-2 sidebar">
+    <ul class="nav nav-sidebar">
+      @foreach (var account in Model.AccountsIndex)
+      {
+        <li class="@(account.Selected ? "active": null)">
+          <a asp-controller="accounts" asp-action="transactions" asp-route-id="@account.Id">
+            @account.Name <span class="badge pull-right">@account.Balance</span>
+          </a>
+        </li>
+      }
+    </ul>
+    <ul class="nav nav-sidebar">
+      <li>
+        <a asp-controller="accounts" asp-action="add">
+          <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+          Add Account
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="page-header">@Model.AccountName</h1>
+  </div>
+</div>

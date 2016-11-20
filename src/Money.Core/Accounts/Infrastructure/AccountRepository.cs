@@ -18,8 +18,8 @@ namespace Money.Core.Accounts.Infrastructure
     public async Task Add(Account account)
     {
       const string sql = 
-        @"insert into [Account] ([Name], [Balance]) 
-        values (@name, @balance)
+        @"insert into [Account] ([UserId], [Name], [Balance]) 
+        values (@userId, @name, @balance)
         
         select cast(SCOPE_IDENTITY() as int)";
       

@@ -1,16 +1,9 @@
-﻿@model AccountIndexViewModel
-@{
+﻿@{
   ViewData["Title"] = "Accounts";
 }
 
 <div class="row">
   <div class="col-sm-3 col-md-2 sidebar">
-    <ul class="nav nav-sidebar">
-      @foreach (var account in Model.Accounts)
-      {
-        <li><a href="#">@account.Name</a></li>
-      }
-    </ul>
     <ul class="nav nav-sidebar">
       <li>
         <a asp-controller="accounts" asp-action="add">
