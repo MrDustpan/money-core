@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using Money.Core.Accounts.Boundary.GetAccountIndex;
+using Money.Core.Accounts.Boundary;
 
 namespace Money.Core.Accounts.Domain
 {

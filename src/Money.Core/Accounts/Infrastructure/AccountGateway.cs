@@ -1,9 +1,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
-using Money.Core.Accounts.Boundary.GetAccountIndex;
+using Money.Core.Accounts.Boundary;
 using Money.Core.Accounts.Domain;
-using Money.Core.Common.Infrastructure.DataAccess;
+using Money.Core.Common.DataAccess;
 
 namespace Money.Core.Accounts.Infrastructure
 {

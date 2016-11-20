@@ -1,4 +1,4 @@
-using Money.Core.Identity.Boundary.ConfirmAccount;
+using Money.Core.Identity.Boundary;
 
 namespace Money.Web.Features.Auth.ViewModels
 {

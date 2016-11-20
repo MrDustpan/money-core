@@ -1,9 +1,8 @@
 using System.Threading.Tasks;
-using Money.Core.Common.Infrastructure.Configuration;
-using Money.Core.Common.Infrastructure.Email;
-using Money.Core.Common.Infrastructure.Resources;
+using Money.Core.Common.Configuration;
+using Money.Core.Common.Email;
+using Money.Core.Common.Resources;
 using Money.Core.Identity.Domain;
-using Money.Core.Identity.Domain.Register;
 
 namespace Money.Core.Identity.Infrastructure
 {
