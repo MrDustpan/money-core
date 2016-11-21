@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Money.Core.Identity.Domain;
+using Money.Core.Common.Infrastructure.Messaging;
 
 namespace Web
 {
@@ -66,6 +67,8 @@ namespace Web
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
     {
+      ServiceBus.ServiceProvider = app.ApplicationServices;
+
       loggerFactory.AddConsole(Configuration.GetSection("Logging"));
       loggerFactory.AddDebug();
 

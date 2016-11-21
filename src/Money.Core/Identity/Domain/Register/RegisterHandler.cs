@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Money.Core.Common.Infrastructure.Messaging;
 using Money.Core.Identity.Boundary.Register;
 
 namespace Money.Core.Identity.Domain.Register
@@ -9,15 +10,18 @@ namespace Money.Core.Identity.Domain.Register
     private readonly IUserRepository _userRepository;
     private readonly IConfirmationEmailSender _emailer;
     private readonly IPasswordHasher _hasher;
+    private readonly IServiceBus _serviceBus;
 
     public RegisterHandler(
       IUserRepository userRepository, 
       IConfirmationEmailSender emailer,
-      IPasswordHasher hasher)
+      IPasswordHasher hasher,
+      IServiceBus serviceBus)
     {
       _userRepository = userRepository;
       _emailer = emailer;
       _hasher = hasher;
+      _serviceBus = serviceBus;
     }
 
     public async Task<RegisterResponse> Handle(RegisterRequest request)
@@ -40,6 +44,8 @@ namespace Money.Core.Identity.Domain.Register
       response.UserId = user.Id;
 
       await _emailer.Send(user);
+
+      await _serviceBus.RaiseEvent(new UserRegisteredEvent { UserId = user.Id });
 
       return response;
     }
